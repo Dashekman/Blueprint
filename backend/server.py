@@ -7,6 +7,9 @@ import os
 import logging
 from contextlib import asynccontextmanager
 
+# Import dependencies
+from dependencies import set_database, get_profile_service
+
 # Import routers
 from routers import tests, profile, daily
 from services.profile_service import ProfileService
@@ -28,6 +31,9 @@ async def lifespan(app: FastAPI):
     
     client = AsyncIOMotorClient(mongo_url)
     db = client[db_name]
+    
+    # Set database in dependencies module
+    set_database(db)
     
     # Test connection
     try:
@@ -59,15 +65,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Dependency to get database instance
-async def get_database():
-    return db
-
-# Dependency to get ProfileService instance
-async def get_profile_service(database = Depends(get_database)) -> ProfileService:
-    return ProfileService(database)
-
-# Include routers with dependencies
+# Include routers
 app.include_router(tests.router)
 app.include_router(profile.router)
 app.include_router(daily.router)
