@@ -1,9 +1,9 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from typing import Optional
 from datetime import date
 
-from ..models import DailyContentRequest, DailyContentResponse
-from ..services.profile_service import ProfileService
+from models import DailyContentRequest, DailyContentResponse
+from services.profile_service import ProfileService
 
 router = APIRouter(prefix="/api/daily", tags=["daily"])
 
@@ -12,7 +12,7 @@ async def get_daily_content(
     user_session: str,
     target_date: Optional[str] = None,
     focus_area: Optional[str] = None,
-    profile_service: ProfileService = None
+    profile_service: ProfileService = Depends()
 ):
     """Get personalized daily content"""
     
