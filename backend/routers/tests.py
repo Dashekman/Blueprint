@@ -8,6 +8,7 @@ from services.test_service import TestScoringService
 from services.ai_service import AIService
 from services.profile_service import ProfileService
 from models import TestResult
+from server import get_profile_service
 
 router = APIRouter(prefix="/api/tests", tags=["tests"])
 
@@ -20,7 +21,7 @@ async def submit_test(
     test_id: str,
     submission: TestSubmission,
     background_tasks: BackgroundTasks,
-    profile_service: ProfileService = Depends()
+    profile_service: ProfileService = Depends(get_profile_service)
 ):
     """Submit completed test and get AI-powered results"""
     
