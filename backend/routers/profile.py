@@ -87,7 +87,7 @@ async def regenerate_profile(
         raise HTTPException(status_code=500, detail=f"Profile regeneration failed: {str(e)}")
 
 @router.get("/stats/{user_session}")
-async def get_user_stats(user_session: str, profile_service: ProfileService = Depends()):
+async def get_user_stats(user_session: str, profile_service: ProfileService = Depends(get_profile_service)):
     """Get user statistics and progress"""
     
     try:
