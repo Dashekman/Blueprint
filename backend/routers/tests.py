@@ -73,7 +73,7 @@ async def submit_test(
         raise HTTPException(status_code=500, detail=f"Error processing test: {str(e)}")
 
 @router.get("/{test_id}/result/{result_id}")
-async def get_test_result(test_id: str, result_id: str, profile_service: ProfileService):
+async def get_test_result(test_id: str, result_id: str, profile_service: ProfileService = Depends()):
     """Get detailed test result by ID"""
     
     try:
