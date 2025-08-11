@@ -69,7 +69,7 @@ async def get_unified_profile(user_session: str, profile_service: ProfileService
 async def regenerate_profile(
     user_session: str,
     user_goals: Optional[str] = None,
-    profile_service: ProfileService = None
+    profile_service: ProfileService = Depends()
 ):
     """Regenerate unified profile with latest test data"""
     
