@@ -102,7 +102,7 @@ async def get_user_stats(user_session: str, profile_service: ProfileService = De
 @router.post("/custom-meditation")
 async def generate_custom_meditation(
     request: CustomMeditationRequest,
-    profile_service: ProfileService
+    profile_service: ProfileService = Depends()
 ):
     """Generate custom meditation based on user profile"""
     
