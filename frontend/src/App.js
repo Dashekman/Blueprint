@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from './components/ui/toaster';
+import { UserProvider } from './contexts/UserContext';
 import './App.css';
 
 // Pages
@@ -18,20 +19,22 @@ import Layout from './components/Layout';
 function App() {
   return (
     <div className="App">
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/test/:testId" element={<TakeTest />} />
-            <Route path="/results/:testId" element={<TestResults />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/daily" element={<Daily />} />
-            <Route path="/library" element={<Library />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </Layout>
-        <Toaster />
-      </Router>
+      <UserProvider>
+        <Router>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/test/:testId" element={<TakeTest />} />
+              <Route path="/results/:testId" element={<TestResults />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/daily" element={<Daily />} />
+              <Route path="/library" element={<Library />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
+          </Layout>
+          <Toaster />
+        </Router>
+      </UserProvider>
     </div>
   );
 }
