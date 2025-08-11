@@ -1,13 +1,13 @@
-from fastapi import APIRouter, HTTPException, BackgroundTasks
+from fastapi import APIRouter, HTTPException, BackgroundTasks, Depends
 from typing import Dict, Any
 import uuid
 from datetime import datetime
 
-from ..models import TestSubmission, TestResultResponse, AIGenerationStatus
-from ..services.test_service import TestScoringService
-from ..services.ai_service import AIService
-from ..services.profile_service import ProfileService
-from ..models import TestResult
+from models import TestSubmission, TestResultResponse, AIGenerationStatus
+from services.test_service import TestScoringService
+from services.ai_service import AIService
+from services.profile_service import ProfileService
+from models import TestResult
 
 router = APIRouter(prefix="/api/tests", tags=["tests"])
 
@@ -20,7 +20,7 @@ async def submit_test(
     test_id: str,
     submission: TestSubmission,
     background_tasks: BackgroundTasks,
-    profile_service: ProfileService
+    profile_service: ProfileService = Depends()
 ):
     """Submit completed test and get AI-powered results"""
     
