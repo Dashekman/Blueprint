@@ -71,22 +71,22 @@ TEST RESULTS:
 USER CONTEXT:
 {user_context}
 
-Generate a JSON response with this exact structure:
+IMPORTANT: Respond ONLY with valid JSON in exactly this format (no additional text before or after):
 {{
-    "strengths": ["list of 4-6 key strengths with specific examples"],
-    "challenges": ["list of 3-5 growth areas with actionable advice"],
-    "communication_style": "detailed description of how they communicate and interact",
-    "career_guidance": "specific career advice with concrete next steps",
-    "study_tactics": "learning style recommendations with practical techniques",
-    "motivation_levers": "what drives them with specific strategies",
-    "relationship_tips": "interpersonal advice with actionable steps",
-    "daily_micro_coaching": "one specific action they can take today",
+    "strengths": ["strength 1 with specific example", "strength 2 with specific example", "strength 3 with specific example", "strength 4 with specific example"],
+    "challenges": ["growth area 1 with actionable advice", "growth area 2 with actionable advice", "growth area 3 with actionable advice"],
+    "communication_style": "detailed description of how they communicate and interact with others",
+    "career_guidance": "specific career advice with concrete next steps and role suggestions",
+    "study_tactics": "learning style recommendations with practical techniques they can use immediately",
+    "motivation_levers": "what drives them with specific strategies for maintaining motivation",
+    "relationship_tips": "interpersonal advice with actionable steps for better relationships",
+    "daily_micro_coaching": "one specific action they can take today to improve their life",
     "confidence": 0.85,
-    "reasoning_summary": "brief explanation of how insights were derived and which tests contributed",
+    "reasoning_summary": "brief explanation of how these insights were derived and which test patterns were most influential",
     "ai_model_used": "gpt-4o-mini"
 }}
 
-Ensure all advice is practical, specific, and actionable. Include confidence levels based on consistency across tests."""
+Ensure all advice is practical, specific, and immediately actionable. Base confidence on consistency across test results (0.5-0.95 range)."""
 
         try:
             chat = self._create_chat(f"profile_synthesis_{user_session}", system_message)
