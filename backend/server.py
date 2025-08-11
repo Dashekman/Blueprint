@@ -1,67 +1,166 @@
-from fastapi import FastAPI, APIRouter
-from dotenv import load_dotenv
-from starlette.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, APIRouter, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
+from dotenv import load_dotenv
+from pathlib import Path
 import os
 import logging
-from pathlib import Path
-from pydantic import BaseModel, Field
-from typing import List
-import uuid
-from datetime import datetime
+from contextlib import asynccontextmanager
 
+# Import routers
+from .routers import tests, profile, daily
+from .services.profile_service import ProfileService
 
+# Load environment variables
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+# Global variables for database
+client = None
+db = None
 
-# Create the main app without a prefix
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    global client, db
+    mongo_url = os.environ.get('MONGO_URL')
+    db_name = os.environ.get('DB_NAME', 'personal_blueprint')
+    
+    client = AsyncIOMotorClient(mongo_url)
+    db = client[db_name]
+    
+    # Test connection
+    try:
+        await client.admin.command('ismaster')
+        logging.info("Connected to MongoDB successfully")
+    except Exception as e:
+        logging.error(f"Failed to connect to MongoDB: {e}")
+    
+    yield
+    
+    # Shutdown
+    if client:
+        client.close()
 
-# Create a router with the /api prefix
-api_router = APIRouter(prefix="/api")
+# Create FastAPI app with lifespan
+app = FastAPI(
+    title="Personal Blueprint API",
+    description="AI-powered personality assessment and synthesis platform",
+    version="1.0.0",
+    lifespan=lifespan
+)
 
-
-# Define Models
-class StatusCheck(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
-
-class StatusCheckCreate(BaseModel):
-    client_name: str
-
-# Add your routes to the router instead of directly to app
-@api_router.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.dict()
-    status_obj = StatusCheck(**status_dict)
-    _ = await db.status_checks.insert_one(status_obj.dict())
-    return status_obj
-
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
-    status_checks = await db.status_checks.find().to_list(1000)
-    return [StatusCheck(**status_check) for status_check in status_checks]
-
-# Include the router in the main app
-app.include_router(api_router)
-
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
+    allow_origins=["*"],  # In production, specify actual origins
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Dependency to get ProfileService instance
+async def get_profile_service() -> ProfileService:
+    return ProfileService(db)
+
+# Add dependency to all routers
+def add_profile_service_dependency(router: APIRouter):
+    """Add ProfileService dependency to all routes in a router"""
+    for route in router.routes:
+        if hasattr(route, 'dependant'):
+            # Add ProfileService as a dependency
+            route.dependant.dependencies.append(
+                Depends(get_profile_service)
+            )
+
+# Apply dependency to routers
+add_profile_service_dependency(tests.router)
+add_profile_service_dependency(profile.router) 
+add_profile_service_dependency(daily.router)
+
+# Include routers
+app.include_router(tests.router)
+app.include_router(profile.router)
+app.include_router(daily.router)
+
+# Health check endpoint
+@app.get("/api/health")
+async def health_check():
+    """Health check endpoint"""
+    try:
+        # Test database connection
+        await client.admin.command('ismaster')
+        db_status = "connected"
+    except Exception:
+        db_status = "disconnected"
+    
+    return {
+        "status": "healthy",
+        "database": db_status,
+        "service": "Personal Blueprint API",
+        "version": "1.0.0"
+    }
+
+# Root endpoint
+@app.get("/api/")
+async def root():
+    return {
+        "message": "Personal Blueprint API",
+        "description": "AI-powered personality assessment and synthesis platform",
+        "version": "1.0.0",
+        "endpoints": {
+            "tests": "/api/tests",
+            "profile": "/api/profile", 
+            "daily": "/api/daily",
+            "health": "/api/health"
+        }
+    }
+
+# User session endpoints
+@app.post("/api/user/session")
+async def create_user_session():
+    """Create a new user session ID"""
+    import uuid
+    session_id = str(uuid.uuid4())
+    
+    return {
+        "success": True,
+        "session_id": session_id,
+        "message": "New user session created"
+    }
+
+@app.get("/api/user/{user_session}/summary")
+async def get_user_summary(user_session: str, profile_service: ProfileService = Depends(get_profile_service)):
+    """Get summary of user's progress and data"""
+    
+    try:
+        # Get test results
+        test_results = await profile_service.get_user_test_results(user_session)
+        
+        # Get profile
+        profile = await profile_service.get_unified_profile(user_session)
+        
+        # Get stats
+        stats = await profile_service.get_user_stats(user_session)
+        
+        return {
+            "success": True,
+            "summary": {
+                "user_session": user_session,
+                "tests_completed": len(test_results),
+                "completed_test_types": [r.test_id for r in test_results],
+                "profile_generated": profile is not None,
+                "profile_confidence": profile.confidence if profile else 0.0,
+                "last_activity": stats["last_activity"],
+                "ready_for_synthesis": len(test_results) >= 1
+            }
+        }
+        
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"Error retrieving user summary: {str(e)}"
+        }
 
 # Configure logging
 logging.basicConfig(
@@ -70,6 +169,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)
