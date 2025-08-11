@@ -156,24 +156,24 @@ PERSONALITY PROFILE:
 
 {focus_context}
 
-Generate JSON with this exact structure:
+IMPORTANT: Respond ONLY with valid JSON in exactly this format (no additional text):
 {{
-    "horoscope": "70-120 words of supportive, practical guidance (marked as entertainment)",
-    "mantra": "personalized affirmation matching their communication style",
+    "horoscope": "70-120 words of supportive, practical guidance clearly marked as entertainment",
+    "mantra": "personalized affirmation that matches their communication style and current needs",
     "micro_routine": {{
-        "name": "descriptive name for the 3-7 minute practice",
+        "name": "descriptive name for this 3-7 minute practice",
         "duration": "X minutes",
-        "description": "brief explanation of benefits",
-        "steps": ["step 1", "step 2", "step 3", "step 4", "step 5"]
+        "description": "brief explanation of benefits for their personality type",
+        "steps": ["clear step 1", "clear step 2", "clear step 3", "clear step 4", "clear step 5"]
     }},
     "meditation": {{
-        "title": "meditation name tailored to their personality",
+        "title": "meditation name specifically tailored to their personality and needs",
         "duration": "5-8 minutes",
-        "script": "complete guided meditation script (200-300 words) with timing cues and pauses. Match their communication style and current needs."
+        "script": "complete guided meditation script (200-300 words) with natural timing cues and pauses. Write in a style that matches their communication preferences and addresses their current growth areas."
     }}
 }}
 
-Make all content personally relevant and actionable for today."""
+Make all content personally relevant, practical, and actionable for today. Ensure horoscope includes disclaimer about entertainment value."""
 
         try:
             chat = self._create_chat(f"daily_content_{user_session}_{date}", system_message)
