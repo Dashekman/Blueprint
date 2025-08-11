@@ -4,7 +4,7 @@ from datetime import date
 
 from models import DailyContentRequest, DailyContentResponse
 from services.profile_service import ProfileService
-from server import get_profile_service
+from dependencies import get_profile_service
 
 router = APIRouter(prefix="/api/daily", tags=["daily"])
 
