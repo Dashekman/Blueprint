@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, Depends
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
@@ -8,8 +8,8 @@ import logging
 from contextlib import asynccontextmanager
 
 # Import routers
-from .routers import tests, profile, daily
-from .services.profile_service import ProfileService
+from routers import tests, profile, daily
+from services.profile_service import ProfileService
 
 # Load environment variables
 ROOT_DIR = Path(__file__).parent
@@ -63,22 +63,7 @@ app.add_middleware(
 async def get_profile_service() -> ProfileService:
     return ProfileService(db)
 
-# Add dependency to all routers
-def add_profile_service_dependency(router: APIRouter):
-    """Add ProfileService dependency to all routes in a router"""
-    for route in router.routes:
-        if hasattr(route, 'dependant'):
-            # Add ProfileService as a dependency
-            route.dependant.dependencies.append(
-                Depends(get_profile_service)
-            )
-
-# Apply dependency to routers
-add_profile_service_dependency(tests.router)
-add_profile_service_dependency(profile.router) 
-add_profile_service_dependency(daily.router)
-
-# Include routers
+# Include routers with dependencies
 app.include_router(tests.router)
 app.include_router(profile.router)
 app.include_router(daily.router)
