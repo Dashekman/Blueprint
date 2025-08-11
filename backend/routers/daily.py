@@ -191,7 +191,7 @@ async def generate_custom_meditation(
     user_session: str,
     focus_area: str,
     duration: int = 7,
-    profile_service: ProfileService = Depends()
+    profile_service: ProfileService = Depends(get_profile_service)
 ):
     """Generate a custom meditation for specific focus area"""
     
