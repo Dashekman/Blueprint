@@ -1,9 +1,9 @@
 from typing import Dict, List, Optional, Any
 from datetime import datetime, date
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from .ai_service import AIService
-from .test_service import TestScoringService
-from ..models import TestResult, UnifiedProfile, DailyContent
+from services.ai_service import AIService
+from services.test_service import TestScoringService
+from models import TestResult, UnifiedProfile, DailyContent
 
 class ProfileService:
     def __init__(self, db: AsyncIOMotorDatabase):
