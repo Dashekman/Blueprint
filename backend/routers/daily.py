@@ -156,7 +156,7 @@ async def get_micro_routine(
 async def get_daily_meditation(
     user_session: str,
     target_date: Optional[str] = None,
-    profile_service: ProfileService = None
+    profile_service: ProfileService = Depends()
 ):
     """Get personalized meditation for the day"""
     
