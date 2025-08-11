@@ -123,7 +123,7 @@ async def get_daily_mantra(
 async def get_micro_routine(
     user_session: str,
     target_date: Optional[str] = None,
-    profile_service: ProfileService = None
+    profile_service: ProfileService = Depends()
 ):
     """Get personalized micro-routine for the day"""
     
