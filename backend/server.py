@@ -59,9 +59,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Dependency to get database instance
+async def get_database():
+    return db
+
 # Dependency to get ProfileService instance
-async def get_profile_service() -> ProfileService:
-    return ProfileService(db)
+async def get_profile_service(database = Depends(get_database)) -> ProfileService:
+    return ProfileService(database)
 
 # Include routers with dependencies
 app.include_router(tests.router)
