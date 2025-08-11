@@ -96,8 +96,9 @@ Ensure all advice is practical, specific, and actionable. Include confidence lev
             # Parse JSON response
             profile_data = json.loads(response.strip())
             
-            # Validate and set source tests
-            profile_data["source_tests"] = [result.get("test_id") for result in test_results]
+            # Remove source_tests if present (we'll set it separately)
+            if 'source_tests' in profile_data:
+                del profile_data['source_tests']
             
             return {
                 "success": True,
