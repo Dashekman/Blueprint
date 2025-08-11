@@ -141,7 +141,7 @@ async def generate_custom_meditation(
         raise HTTPException(status_code=500, detail=f"Custom meditation generation failed: {str(e)}")
 
 @router.delete("/data/{user_session}")
-async def delete_user_data(user_session: str, profile_service: ProfileService = Depends()):
+async def delete_user_data(user_session: str, profile_service: ProfileService = Depends(get_profile_service)):
     """Delete all user data"""
     
     try:
