@@ -4,7 +4,7 @@ from datetime import date
 
 from models import ProfileSynthesisRequest, ProfileResponse, CustomMeditationRequest
 from services.profile_service import ProfileService
-from server import get_profile_service
+from dependencies import get_profile_service
 
 router = APIRouter(prefix="/api/profile", tags=["profile"])
 
