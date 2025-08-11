@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useToast } from './use-toast';
+import ApiService from '../services/api';
 
 /**
  * Custom hook for API calls with loading states and error handling
