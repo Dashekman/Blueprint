@@ -28,7 +28,7 @@ async def synthesize_profile(
         raise HTTPException(status_code=500, detail=f"Profile synthesis failed: {str(e)}")
 
 @router.get("/unified/{user_session}", response_model=ProfileResponse)
-async def get_unified_profile(user_session: str, profile_service: ProfileService = Depends()):
+async def get_unified_profile(user_session: str, profile_service: ProfileService = Depends(get_profile_service)):
     """Retrieve existing unified profile"""
     
     try:
