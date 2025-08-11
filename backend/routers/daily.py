@@ -34,7 +34,7 @@ async def get_daily_content(
 @router.post("/content", response_model=DailyContentResponse)
 async def create_daily_content(
     request: DailyContentRequest,
-    profile_service: ProfileService
+    profile_service: ProfileService = Depends()
 ):
     """Generate daily content for specific date and focus"""
     
