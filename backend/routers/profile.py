@@ -160,7 +160,7 @@ async def delete_user_data(user_session: str, profile_service: ProfileService = 
         raise HTTPException(status_code=500, detail=f"Error deleting user data: {str(e)}")
 
 @router.get("/export/{user_session}")
-async def export_user_data(user_session: str, profile_service: ProfileService):
+async def export_user_data(user_session: str, profile_service: ProfileService = Depends()):
     """Export all user data"""
     
     try:
