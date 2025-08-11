@@ -90,7 +90,7 @@ async def get_personalized_horoscope(
 async def get_daily_mantra(
     user_session: str,
     target_date: Optional[str] = None,
-    profile_service: ProfileService = None
+    profile_service: ProfileService = Depends()
 ):
     """Get personalized daily mantra"""
     
