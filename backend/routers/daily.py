@@ -4,6 +4,7 @@ from datetime import date
 
 from models import DailyContentRequest, DailyContentResponse
 from services.profile_service import ProfileService
+from server import get_profile_service
 
 router = APIRouter(prefix="/api/daily", tags=["daily"])
 
@@ -12,7 +13,7 @@ async def get_daily_content(
     user_session: str,
     target_date: Optional[str] = None,
     focus_area: Optional[str] = None,
-    profile_service: ProfileService = Depends()
+    profile_service: ProfileService = Depends(get_profile_service)
 ):
     """Get personalized daily content"""
     
