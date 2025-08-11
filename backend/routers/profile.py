@@ -4,13 +4,14 @@ from datetime import date
 
 from models import ProfileSynthesisRequest, ProfileResponse, CustomMeditationRequest
 from services.profile_service import ProfileService
+from server import get_profile_service
 
 router = APIRouter(prefix="/api/profile", tags=["profile"])
 
 @router.post("/synthesize", response_model=ProfileResponse)
 async def synthesize_profile(
     request: ProfileSynthesisRequest,
-    profile_service: ProfileService = Depends()
+    profile_service: ProfileService = Depends(get_profile_service)
 ):
     """Generate unified personality profile from completed tests"""
     
