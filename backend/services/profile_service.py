@@ -11,9 +11,13 @@ class ProfileService:
         self.ai_service = AIService()
         self.scoring_service = TestScoringService()
     
-    async def get_user_test_results(self, user_session: str) -> List[TestResult]:
+    async def get_user_test_results(self, user_session: str, user_id: Optional[str] = None) -> List[TestResult]:
         """Get all test results for a user session"""
-        cursor = self.db.test_results.find({"user_session": user_session})
+        query = {"user_session": user_session}
+        if user_id:
+            query["user_id"] = user_id
+            
+        cursor = self.db.test_results.find(query)
         results = []
         async for doc in cursor:
             # Convert MongoDB document to TestResult
