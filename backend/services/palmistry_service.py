@@ -4,6 +4,12 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from models import PalmScan, PalmistryResult, PalmistryResponse
 import base64
 import uuid
+import os
+from dotenv import load_dotenv
+from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
+import json
+
+load_dotenv()
 
 class PalmistryService:
     def __init__(self, db: AsyncIOMotorDatabase):
