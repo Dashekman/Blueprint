@@ -214,8 +214,8 @@ async def get_user_summary(
 async def get_superhuman_progress(
     user_session: str,
     request: Request,
-    profile_service: ProfileService = Depends(get_profile_service),
-    auth_service: AuthService = Depends(get_auth_service)
+    profile_service: ProfileService = Depends(dependencies.get_profile_service),
+    auth_service: AuthService = Depends(dependencies.get_auth_service)
 ):
     """Get detailed superhuman evolution progress"""
     
