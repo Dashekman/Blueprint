@@ -52,7 +52,7 @@ async def authenticate_session(
 async def logout_user(
     request: Request,
     response: Response,
-    auth_service: AuthService = Depends()
+    auth_service: AuthService = Depends(get_auth_service)
 ):
     """Logout user and clear session"""
     
