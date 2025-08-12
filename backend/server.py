@@ -6,6 +6,7 @@ from pathlib import Path
 import os
 import logging
 from contextlib import asynccontextmanager
+import dependencies
 
 # Import services
 from services.profile_service import ProfileService
