@@ -419,6 +419,7 @@ class PalmistryBackendTester:
             self.test_emergent_llm_key_configuration,
             self.test_palmistry_service_integration,
             self.test_ai_analysis_with_mock_auth,
+            self.test_complete_ai_analysis_flow,
             self.test_error_handling,
         ]
         
