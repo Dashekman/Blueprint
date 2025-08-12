@@ -49,7 +49,7 @@ async def upload_palm_image(
     user_session: str,
     file: UploadFile = File(...),
     current_user: Optional[dict] = Depends(get_current_user_dependency),
-    palmistry_service: PalmistryService = Depends()
+    palmistry_service: PalmistryService = Depends(get_palmistry_service)
 ):
     """Upload palm image file for analysis"""
     
