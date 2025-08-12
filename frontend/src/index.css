@@ -16,8 +16,6 @@ code {
         monospace;
 }
 
-
-
 @layer base {
   :root {
         --background: 0 0% 100%;
@@ -74,8 +72,6 @@ code {
     }
 }
 
-
-
 @layer base {
   * {
     @apply border-border;
@@ -83,4 +79,113 @@ code {
   body {
     @apply bg-background text-foreground;
     }
+}
+
+/* Superhuman Theme Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(180deg); }
+}
+
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(-180deg); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(90deg); }
+}
+
+@keyframes cosmic-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes enlightenment-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(147, 51, 234, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(147, 51, 234, 0.8); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 8s ease-in-out infinite;
+  animation-delay: -2s;
+}
+
+.animate-float-slow {
+  animation: float-slow 10s ease-in-out infinite;
+  animation-delay: -4s;
+}
+
+.animate-cosmic-pulse {
+  animation: cosmic-pulse 3s ease-in-out infinite;
+}
+
+.animate-enlightenment-glow {
+  animation: enlightenment-glow 2s ease-in-out infinite;
+}
+
+/* Superhuman gradient backgrounds */
+.bg-superhuman-dark {
+  background: linear-gradient(135deg, #1e1b4b 0%, #581c87 50%, #7c2d12 100%);
+}
+
+.bg-enlightenment-light {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 25%, #f59e0b 75%, #d97706 100%);
+}
+
+.text-superhuman-gradient {
+  background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Cosmic particle effects */
+.cosmic-particles::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, white, transparent),
+    radial-gradient(1px 1px at 40px 70px, white, transparent),
+    radial-gradient(1px 1px at 90px 40px, white, transparent),
+    radial-gradient(1px 1px at 130px 80px, white, transparent),
+    radial-gradient(1px 1px at 160px 30px, white, transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+  animation: cosmic-drift 20s linear infinite;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+@keyframes cosmic-drift {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-100px); }
+}
+
+/* Puzzle piece hover effects */
+.puzzle-piece {
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.puzzle-piece:hover {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+}
+
+.puzzle-piece.unlocked::after {
+  content: '✨';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  animation: float 2s ease-in-out infinite;
 }
