@@ -183,6 +183,93 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Palmistry Feature Section */}
+      <section className="mb-8">
+        <Card className="bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full -mr-16 -mt-16 opacity-30" />
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-purple-200 to-pink-200 rounded-full -ml-12 -mb-12 opacity-30" />
+          
+          <CardHeader className="relative z-10">
+            <div className="flex items-center space-x-3 mb-2">
+              <Hand className="h-8 w-8 text-purple-600" />
+              <CardTitle className="text-2xl text-purple-900">AI Palm Reading</CardTitle>
+              <Sparkles className="h-6 w-6 text-pink-500 animate-pulse" />
+            </div>
+            <CardDescription className="text-purple-700 text-lg">
+              Discover the secrets hidden in your palm lines with AI-powered palmistry analysis
+            </CardDescription>
+          </CardHeader>
+          
+          <CardContent className="relative z-10 space-y-4">
+            <div className="grid md:grid-cols-2 gap-4 mb-6">
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2" />
+                <div>
+                  <h4 className="font-semibold text-purple-900">Life Line Analysis</h4>
+                  <p className="text-sm text-purple-700">Insights into health, vitality, and life energy</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-pink-500 rounded-full mt-2" />
+                <div>
+                  <h4 className="font-semibold text-purple-900">Heart Line Reading</h4>
+                  <p className="text-sm text-purple-700">Understanding of love, emotions, and relationships</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-indigo-500 rounded-full mt-2" />
+                <div>
+                  <h4 className="font-semibold text-purple-900">Head Line Insights</h4>
+                  <p className="text-sm text-purple-700">Intelligence, thinking patterns, and creativity</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2" />
+                <div>
+                  <h4 className="font-semibold text-purple-900">Fate Line Destiny</h4>
+                  <p className="text-sm text-purple-700">Career path and life purpose direction</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white/70 rounded-lg p-4 border border-purple-100">
+              <p className="text-sm text-purple-800 mb-3">
+                <strong>✨ New Feature:</strong> Upload or scan your palm image and receive detailed AI-powered palmistry analysis 
+                including personality traits, life predictions, and personalized guidance.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button 
+                  className="bg-purple-600 hover:bg-purple-700 text-white flex-1" 
+                  asChild
+                >
+                  <Link to="/palmistry">
+                    <Hand className="w-4 h-4 mr-2" />
+                    Start Palm Reading
+                  </Link>
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  className="border-purple-300 text-purple-700 hover:bg-purple-100 flex-1"
+                  asChild
+                >
+                  <Link to="/palmistry">
+                    Learn More
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            
+            <p className="text-xs text-purple-600 italic text-center">
+              * For entertainment and spiritual guidance purposes only
+            </p>
+          </CardContent>
+        </Card>
+      </section>
+
       {/* Features Preview */}
       <section className="py-12 bg-gradient-to-r from-slate-900 to-slate-800 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 rounded-xl">
         <div className="max-w-4xl mx-auto text-center space-y-8">
