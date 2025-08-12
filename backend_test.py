@@ -142,14 +142,13 @@ class PalmistryBackendTester:
         """Test palm scan endpoint without authentication (should require login)"""
         try:
             test_image = self.create_test_palm_image()
-            payload = {
-                "user_session": self.test_user_session,
-                "image_data": test_image
-            }
             
             async with self.session.post(
                 f"{BACKEND_URL}/palmistry/scan", 
-                json=payload
+                params={
+                    "user_session": self.test_user_session,
+                    "image_data": test_image
+                }
             ) as response:
                 data = await response.json()
                 # Should fail because authentication is required
