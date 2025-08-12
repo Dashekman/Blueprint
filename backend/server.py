@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
@@ -7,12 +7,14 @@ import os
 import logging
 from contextlib import asynccontextmanager
 
-# Import dependencies
-from dependencies import set_database, get_profile_service
+# Import services
+from services.profile_service import ProfileService
+from services.auth_service import AuthService
+from services.chat_service import ChatService
+from services.palmistry_service import PalmistryService
 
 # Import routers
-from routers import tests, profile, daily
-from services.profile_service import ProfileService
+from routers import tests, profile, daily, auth, chat, palmistry
 
 # Load environment variables
 ROOT_DIR = Path(__file__).parent
@@ -27,13 +29,10 @@ async def lifespan(app: FastAPI):
     # Startup
     global client, db
     mongo_url = os.environ.get('MONGO_URL')
-    db_name = os.environ.get('DB_NAME', 'personal_blueprint')
+    db_name = os.environ.get('DB_NAME', 'superhuman_blueprint')
     
     client = AsyncIOMotorClient(mongo_url)
     db = client[db_name]
-    
-    # Set database in dependencies module
-    set_database(db)
     
     # Test connection
     try:
@@ -50,9 +49,9 @@ async def lifespan(app: FastAPI):
 
 # Create FastAPI app with lifespan
 app = FastAPI(
-    title="Personal Blueprint API",
-    description="AI-powered personality assessment and synthesis platform",
-    version="1.0.0",
+    title="Superhuman Identity Puzzle API",
+    description="AI-powered personality assessment and synthesis platform for superhuman self-discovery",
+    version="2.0.0",
     lifespan=lifespan
 )
 
@@ -65,10 +64,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers
+# Dependencies to get service instances
+async def get_profile_service() -> ProfileService:
+    return ProfileService(db)
+
+async def get_auth_service() -> AuthService:
+    return AuthService(db)
+
+async def get_chat_service() -> ChatService:
+    return ChatService(db)
+
+async def get_palmistry_service() -> PalmistryService:
+    return PalmistryService(db)
+
+# Include routers with dependencies
+app.include_router(auth.router)
 app.include_router(tests.router)
 app.include_router(profile.router)
 app.include_router(daily.router)
+app.include_router(chat.router)
+app.include_router(palmistry.router)
 
 # Health check endpoint
 @app.get("/api/health")
@@ -84,21 +99,25 @@ async def health_check():
     return {
         "status": "healthy",
         "database": db_status,
-        "service": "Personal Blueprint API",
-        "version": "1.0.0"
+        "service": "Superhuman Identity Puzzle API",
+        "version": "2.0.0"
     }
 
 # Root endpoint
 @app.get("/api/")
 async def root():
     return {
-        "message": "Personal Blueprint API",
-        "description": "AI-powered personality assessment and synthesis platform",
-        "version": "1.0.0",
+        "message": "Superhuman Identity Puzzle API",
+        "description": "Unlock your superhuman potential through comprehensive personality analysis",
+        "version": "2.0.0",
+        "theme": "🧠✨ Collect the puzzle pieces of your identity to become superhuman",
         "endpoints": {
+            "authentication": "/api/auth",
             "tests": "/api/tests",
             "profile": "/api/profile", 
             "daily": "/api/daily",
+            "chat": "/api/chat",
+            "palmistry": "/api/palmistry",
             "health": "/api/health"
         }
     }
@@ -117,29 +136,66 @@ async def create_user_session():
     }
 
 @app.get("/api/user/{user_session}/summary")
-async def get_user_summary(user_session: str, profile_service: ProfileService = Depends(get_profile_service)):
+async def get_user_summary(
+    user_session: str, 
+    request: Request,
+    profile_service: ProfileService = Depends(get_profile_service),
+    auth_service: AuthService = Depends(get_auth_service)
+):
     """Get summary of user's progress and data"""
     
     try:
+        # Get current user if authenticated
+        session_token = request.cookies.get("session_token")
+        current_user = None
+        
+        if session_token:
+            user = await auth_service.validate_session_token(session_token)
+            if user:
+                current_user = user.dict()
+        
+        user_id = current_user.get("id") if current_user else None
+        
         # Get test results
-        test_results = await profile_service.get_user_test_results(user_session)
+        test_results = await profile_service.get_user_test_results(user_session, user_id)
         
         # Get profile
-        profile = await profile_service.get_unified_profile(user_session)
+        profile = await profile_service.get_unified_profile(user_session, user_id)
         
         # Get stats
-        stats = await profile_service.get_user_stats(user_session)
+        stats = await profile_service.get_user_stats(user_session, user_id)
+        
+        # Calculate puzzle pieces
+        puzzle_pieces = []
+        for result in test_results:
+            if result.test_id == 'mbti':
+                puzzle_pieces.append('Mental Architecture')
+            elif result.test_id == 'enneagram':
+                puzzle_pieces.append('Motivational Core')
+            elif result.test_id == 'disc':
+                puzzle_pieces.append('Behavioral Pattern')
+            elif result.test_id == 'humanDesign':
+                puzzle_pieces.append('Energy Architecture')
+            elif result.test_id == 'palmistry':
+                puzzle_pieces.append('Ancient Wisdom')
+        
+        superhuman_progress = len(puzzle_pieces) / 5.0  # 5 total puzzle pieces
         
         return {
             "success": True,
             "summary": {
                 "user_session": user_session,
+                "user_id": user_id,
+                "authenticated": current_user is not None,
                 "tests_completed": len(test_results),
                 "completed_test_types": [r.test_id for r in test_results],
                 "profile_generated": profile is not None,
                 "profile_confidence": profile.confidence if profile else 0.0,
                 "last_activity": stats["last_activity"],
-                "ready_for_synthesis": len(test_results) >= 1
+                "ready_for_synthesis": len(test_results) >= 1,
+                "puzzle_pieces_unlocked": puzzle_pieces,
+                "superhuman_progress": superhuman_progress,
+                "superhuman_qualities_unlocked": int(superhuman_progress * 6)  # 6 total qualities
             }
         }
         
@@ -147,6 +203,83 @@ async def get_user_summary(user_session: str, profile_service: ProfileService = 
         return {
             "success": False,
             "error": f"Error retrieving user summary: {str(e)}"
+        }
+
+# Superhuman progress endpoint
+@app.get("/api/superhuman/progress/{user_session}")
+async def get_superhuman_progress(
+    user_session: str,
+    request: Request,
+    profile_service: ProfileService = Depends(get_profile_service),
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """Get detailed superhuman evolution progress"""
+    
+    try:
+        # Get current user if authenticated
+        session_token = request.cookies.get("session_token")
+        current_user = None
+        
+        if session_token:
+            user = await auth_service.validate_session_token(session_token)
+            if user:
+                current_user = user.dict()
+        
+        user_id = current_user.get("id") if current_user else None
+        
+        # Get test results and profile
+        test_results = await profile_service.get_user_test_results(user_session, user_id)
+        profile = await profile_service.get_unified_profile(user_session, user_id)
+        
+        # Define puzzle pieces and superhuman qualities
+        all_puzzles = [
+            {"id": "mental_arch", "name": "Mental Architecture", "test": "mbti", "icon": "🧠"},
+            {"id": "motivational_core", "name": "Motivational Core", "test": "enneagram", "icon": "⭐"},
+            {"id": "behavioral_pattern", "name": "Behavioral Pattern", "test": "disc", "icon": "🎯"},
+            {"id": "energy_arch", "name": "Energy Architecture", "test": "humanDesign", "icon": "✨"},
+            {"id": "ancient_wisdom", "name": "Ancient Wisdom", "test": "palmistry", "icon": "🤚"}
+        ]
+        
+        superhuman_qualities = [
+            "Self-Awareness", "Emotional Mastery", "Cognitive Optimization",
+            "Authentic Expression", "Energy Alignment", "Intuitive Wisdom"
+        ]
+        
+        completed_tests = [r.test_id for r in test_results]
+        unlocked_puzzles = []
+        
+        for puzzle in all_puzzles:
+            if puzzle["test"] in completed_tests:
+                puzzle["unlocked"] = True
+                unlocked_puzzles.append(puzzle)
+            else:
+                puzzle["unlocked"] = False
+        
+        progress_percentage = len(unlocked_puzzles) / len(all_puzzles) * 100
+        unlocked_qualities = int(len(unlocked_puzzles) / len(all_puzzles) * len(superhuman_qualities))
+        
+        return {
+            "success": True,
+            "progress": {
+                "percentage": progress_percentage,
+                "puzzles_unlocked": len(unlocked_puzzles),
+                "total_puzzles": len(all_puzzles),
+                "puzzle_pieces": all_puzzles,
+                "superhuman_qualities": {
+                    "unlocked": superhuman_qualities[:unlocked_qualities],
+                    "locked": superhuman_qualities[unlocked_qualities:],
+                    "total": len(superhuman_qualities)
+                },
+                "is_superhuman": progress_percentage >= 100,
+                "next_milestone": all_puzzles[len(unlocked_puzzles)] if len(unlocked_puzzles) < len(all_puzzles) else None,
+                "profile_confidence": profile.confidence if profile else 0.0
+            }
+        }
+        
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"Error getting superhuman progress: {str(e)}"
         }
 
 # Configure logging
