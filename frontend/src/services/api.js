@@ -10,6 +10,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // Include cookies for authentication
 });
 
 // Response interceptor for error handling
@@ -39,6 +40,49 @@ class ApiService {
       return response.data;
     } catch (error) {
       console.error('Failed to get user summary:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  static async getSuperhumanProgress(userSession) {
+    try {
+      const response = await api.get(`/superhuman/progress/${userSession}`);
+      return response.data;
+    } catch (error) {
+      console.error('Failed to get superhuman progress:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  // Authentication
+  static async authenticateSession(sessionId, userSession) {
+    try {
+      const response = await api.post('/auth/session', { session_id: sessionId }, {
+        headers: userSession ? { 'X-User-Session': userSession } : {}
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Authentication failed:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  static async getCurrentUser() {
+    try {
+      const response = await api.get('/auth/me');
+      return response.data;
+    } catch (error) {
+      console.error('Failed to get current user:', error);
+      return { authenticated: false, user: null };
+    }
+  }
+
+  static async logout() {
+    try {
+      const response = await api.post('/auth/logout');
+      return response.data;
+    } catch (error) {
+      console.error('Logout failed:', error);
       return { success: false, error: error.message };
     }
   }
@@ -220,6 +264,77 @@ class ApiService {
       return response.data;
     } catch (error) {
       console.error('Failed to generate custom meditation:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  // Chat functionality
+  static async sendChatMessage(userSession, message, includeContext = true) {
+    try {
+      const response = await api.post('/chat/message', {
+        user_session: userSession,
+        message: message,
+        include_context: includeContext
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Failed to send chat message:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  static async getChatHistory(userSession) {
+    try {
+      const response = await api.get(`/chat/history/${userSession}`);
+      return response.data;
+    } catch (error) {
+      console.error('Failed to get chat history:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  static async getQuickQuestions(userSession) {
+    try {
+      const response = await api.post('/chat/quick-questions', {
+        user_session: userSession
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Failed to get quick questions:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  // Palmistry functionality
+  static async analyzePalmScan(userSession, imageData) {
+    try {
+      const response = await api.post('/palmistry/scan', {
+        user_session: userSession,
+        image_data: imageData
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Failed to analyze palm scan:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  static async getPalmHistory(userSession) {
+    try {
+      const response = await api.get(`/palmistry/history/${userSession}`);
+      return response.data;
+    } catch (error) {
+      console.error('Failed to get palm history:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  static async getPalmistryTips() {
+    try {
+      const response = await api.get('/palmistry/tips');
+      return response.data;
+    } catch (error) {
+      console.error('Failed to get palmistry tips:', error);
       return { success: false, error: error.message };
     }
   }
