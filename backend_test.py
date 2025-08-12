@@ -215,17 +215,9 @@ class PalmistryBackendTester:
     async def test_ai_analysis_with_mock_auth(self):
         """Test AI analysis functionality with simulated authentication"""
         try:
-            # This test checks if the AI analysis service can be called
-            # We'll test the service layer functionality indirectly
+            # First test the validation endpoint to ensure service is working
             test_image = self.create_test_palm_image()
-            
-            # Create a more realistic palm image for AI analysis
-            # Using a larger test image that might trigger AI analysis
-            realistic_palm_b64 = """iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVBiVY2CgAzAzM2NjY2P7//8/AzYwatQoFgYGBgZ+fn4GJiYmBkZGRgYeHh4GXl5eBj4+PgZ+fn4Gfn5+Bn5+fgYBAQEGQUFBBiFhYQZhYWEGEVFRBlFRUQYxcXEGcXFxBglJSQZJSUkGKWlpBmlpaQYZGRkGWVlZBjl5eQZ5eXkGBUVFBkVFRQYlZWUGZWVlBhUVFQZVVVUGNTU1BnV1dQYNDQ0GTU1NBi0tLQZtbW0GHR0dBl1dXQY9PT0GfX19BgMDAwZDQ0MGIyMjBmNjYwYTExMGU1NTBjMzMwZzc3MGCwsLBksrKwYrKysGa2trBhsbGwZbW1sGOzs7Bnt7ewYHBwcGR0dHBicnJwZnZ2cGFxcXBldXVwY3NzcGd3d3Bg8PDwZPT08GLy8vBm9vbwYfHx8GX19fBj8/PwZ/f38GgIGBgQEAmH9DX4f7UfQAAAAASUVORK5CYII="""
-            realistic_image = f"data:image/png;base64,{realistic_palm_b64}"
-            
-            # Test the validation first to ensure the service is working
-            payload = {"image_data": realistic_image}
+            payload = {"image_data": test_image}
             
             async with self.session.post(
                 f"{BACKEND_URL}/palmistry/validate-image", 
@@ -255,6 +247,41 @@ class PalmistryBackendTester:
                     
         except Exception as e:
             self.log_test_result("AI Analysis Service Validation", False, f"Exception: {str(e)}")
+            return False
+            
+    async def test_complete_ai_analysis_flow(self):
+        """Test complete AI analysis flow including database storage"""
+        try:
+            # Test the scan endpoint without auth (should require login)
+            test_image = self.create_test_palm_image()
+            payload = {
+                "user_session": self.test_user_session,
+                "image_data": test_image
+            }
+            
+            async with self.session.post(
+                f"{BACKEND_URL}/palmistry/scan", 
+                json=payload
+            ) as response:
+                data = await response.json()
+                
+                # Should require authentication
+                auth_required = (
+                    response.status == 200 and 
+                    data.get("success") == False and
+                    ("log in" in data.get("message", "").lower() or 
+                     "login" in data.get("message", "").lower())
+                )
+                
+                self.log_test_result(
+                    "Complete AI Analysis Flow - Auth Check", 
+                    auth_required, 
+                    f"Correctly requires authentication: {data.get('message', '')[:100]}"
+                )
+                return auth_required
+                
+        except Exception as e:
+            self.log_test_result("Complete AI Analysis Flow - Auth Check", False, f"Exception: {str(e)}")
             return False
             
     async def test_emergent_llm_key_configuration(self):
