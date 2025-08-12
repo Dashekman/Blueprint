@@ -90,10 +90,10 @@ class PalmistryBackendTester:
             
     def create_test_palm_image(self) -> str:
         """Create a test palm image in base64 format"""
-        # Create a simple test image (1x1 pixel PNG)
-        # This is a minimal valid PNG image in base64
-        test_image_b64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChAI9jU77yQAAAABJRU5ErkJggg=="
-        return f"data:image/png;base64,{test_image_b64}"
+        # Create a more realistic palm image for AI analysis
+        # This is a larger test image that might trigger proper AI analysis
+        realistic_palm_b64 = """iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAdgAAAHYBTnsmCAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAFYSURBVBiVY2CgAzAzM2NjY2P7//8/AzYwatQoFgYGBgZ+fn4GJiYmBkZGRgYeHh4GXl5eBj4+PgZ+fn4Gfn5+Bn5+fgYBAQEGQUFBBiFhYQZhYWEGEVFRBlFRUQYxcXEGcXFxBglJSQZJSUkGKWlpBmlpaQYZGRkGWVlZBjl5eQZ5eXkGBUVFBkVFRQYlZWUGZWVlBhUVFQZVVVUGNTU1BnV1dQYNDQ0GTU1NBi0tLQZtbW0GHR0dBl1dXQY9PT0GfX19BgMDAwZDQ0MGIyMjBmNjYwYTExMGU1NTBjMzMwZzc3MGCwsLBksrKwYrKysGa2trBhsbGwZbW1sGOzs7Bnt7ewYHBwcGR0dHBicnJwZnZ2cGFxcXBldXVwY3NzcGd3d3Bg8PDwZPT08GLy8vBm9vbwYfHx8GX19fBj8/PwZ/f38GgIGBgQEAmH9DX4f7UfQAAAAASUVORK5CYII="""
+        return f"data:image/png;base64,{realistic_palm_b64}"
         
     async def test_palmistry_features_endpoint(self):
         """Test palmistry features information endpoint"""
