@@ -175,7 +175,7 @@ async def get_palmistry_features():
 @router.post("/validate-image")
 async def validate_palm_image(
     image_data: str,
-    palmistry_service: PalmistryService = Depends()
+    palmistry_service: PalmistryService = Depends(get_palmistry_service)
 ):
     """Validate if uploaded image is suitable for palm reading"""
     
