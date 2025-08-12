@@ -215,11 +215,10 @@ class PalmistryBackendTester:
         try:
             # First test the validation endpoint to ensure service is working
             test_image = self.create_test_palm_image()
-            payload = {"image_data": test_image}
             
             async with self.session.post(
                 f"{BACKEND_URL}/palmistry/validate-image", 
-                json=payload
+                params={"image_data": test_image}
             ) as response:
                 data = await response.json()
                 validation_success = (
