@@ -114,9 +114,13 @@ class ProfileService:
             "message": "Profile generated successfully" if not regenerate else "Profile regenerated successfully"
         }
     
-    async def get_unified_profile(self, user_session: str) -> Optional[UnifiedProfile]:
+    async def get_unified_profile(self, user_session: str, user_id: Optional[str] = None) -> Optional[UnifiedProfile]:
         """Retrieve existing unified profile"""
-        doc = await self.db.unified_profiles.find_one({"user_session": user_session})
+        query = {"user_session": user_session}
+        if user_id:
+            query["user_id"] = user_id
+            
+        doc = await self.db.unified_profiles.find_one(query)
         if doc:
             doc['id'] = str(doc['_id'])
             del doc['_id']
