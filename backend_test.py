@@ -289,11 +289,10 @@ class PalmistryBackendTester:
             
             # Test a request that would trigger AI analysis (indirectly)
             test_image = self.create_test_palm_image()
-            payload = {"image_data": test_image}
             
             async with self.session.post(
                 f"{BACKEND_URL}/palmistry/validate-image", 
-                json=payload
+                params={"image_data": test_image}
             ) as response:
                 data = await response.json()
                 
