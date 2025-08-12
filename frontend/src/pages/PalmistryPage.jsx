@@ -35,7 +35,7 @@ const PalmistryPage = () => {
     setCurrentStep('analyzing');
 
     try {
-      const response = await apiService.analyzePalmScan(userSession, imageData);
+      const response = await ApiService.analyzePalmScan(userSession, imageData);
       
       if (response.success && response.analysis) {
         setAnalysisResult(response.analysis);
