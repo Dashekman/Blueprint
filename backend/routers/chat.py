@@ -35,7 +35,7 @@ async def send_chat_message(
 async def get_chat_history(
     user_session: str,
     current_user: Optional[dict] = Depends(get_current_user_dependency),
-    chat_service: ChatService = Depends()
+    chat_service: ChatService = Depends(get_chat_service)
 ):
     """Get chat history for user session"""
     
@@ -61,7 +61,7 @@ async def get_chat_history(
 async def delete_chat_history(
     user_session: str,
     current_user: Optional[dict] = Depends(get_current_user_dependency),
-    chat_service: ChatService = Depends()
+    chat_service: ChatService = Depends(get_chat_service)
 ):
     """Delete chat history for user session"""
     
@@ -85,7 +85,7 @@ async def delete_chat_history(
 async def get_personality_context(
     user_session: str,
     current_user: Optional[dict] = Depends(get_current_user_dependency),
-    chat_service: ChatService = Depends()
+    chat_service: ChatService = Depends(get_chat_service)
 ):
     """Get available personality context for chat"""
     
@@ -108,7 +108,7 @@ async def get_personality_context(
 async def get_quick_questions(
     user_session: str,
     current_user: Optional[dict] = Depends(get_current_user_dependency),
-    chat_service: ChatService = Depends()
+    chat_service: ChatService = Depends(get_chat_service)
 ):
     """Get suggested quick questions based on user's profile"""
     
