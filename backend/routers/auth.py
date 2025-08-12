@@ -5,6 +5,11 @@ from services.auth_service import AuthService
 from models import AuthResponse
 import os
 
+# Import the dependency function from server
+import sys
+sys.path.append('..')
+from server import get_auth_service
+
 router = APIRouter(prefix="/api/auth", tags=["authentication"])
 security = HTTPBearer(auto_error=False)
 
