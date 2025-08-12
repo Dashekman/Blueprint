@@ -18,7 +18,7 @@ async def authenticate_session(
     request: Request,
     response: Response,
     session_id: str,
-    auth_service: AuthService = Depends()
+    auth_service: AuthService = Depends(get_auth_service)
 ):
     """Authenticate user with Emergent OAuth session ID"""
     
