@@ -18,7 +18,7 @@ async def analyze_palm_scan(
     user_session: str,
     image_data: str,  # Base64 encoded image
     current_user: Optional[dict] = Depends(get_current_user_dependency),
-    palmistry_service: PalmistryService = Depends()
+    palmistry_service: PalmistryService = Depends(get_palmistry_service)
 ):
     """Analyze palm scan from camera image"""
     
