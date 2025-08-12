@@ -365,14 +365,12 @@ class PalmistryBackendTester:
         """Test error handling in palmistry endpoints"""
         try:
             # Test with invalid image data
-            payload = {
-                "user_session": self.test_user_session,
-                "image_data": "invalid_image_data"
-            }
-            
             async with self.session.post(
                 f"{BACKEND_URL}/palmistry/scan", 
-                json=payload
+                params={
+                    "user_session": self.test_user_session,
+                    "image_data": "invalid_image_data"
+                }
             ) as response:
                 data = await response.json()
                 
