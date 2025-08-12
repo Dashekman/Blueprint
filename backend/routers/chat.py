@@ -4,6 +4,7 @@ from services.chat_service import ChatService
 from services.auth_service import AuthService
 from routers.auth import get_current_user_dependency
 from models import ChatRequest, ChatResponse, ChatMessage
+from dependencies import get_chat_service
 
 router = APIRouter(prefix="/api/chat", tags=["ai-chat"])
 
