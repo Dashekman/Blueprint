@@ -31,6 +31,7 @@ function App() {
               <Route path="/daily" element={<Daily />} />
               <Route path="/library" element={<Library />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/palmistry" element={<PalmistryPage />} />
             </Routes>
           </Layout>
           <Toaster />
