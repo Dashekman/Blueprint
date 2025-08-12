@@ -7,7 +7,7 @@ import { Badge } from '../components/ui/badge';
 import { Progress } from '../components/ui/progress';
 import PalmistryCameraComponent from '../components/PalmistryCameraComponent';
 import { useToast } from '../hooks/use-toast';
-import { apiService } from '../services/api';
+import ApiService from '../services/api';
 
 const PalmistryPage = () => {
   const navigate = useNavigate();
