@@ -105,7 +105,7 @@ async def get_current_user(
         raise HTTPException(status_code=500, detail=f"User validation failed: {str(e)}")
 
 @router.post("/cleanup")
-async def cleanup_expired_sessions(auth_service: AuthService = Depends()):
+async def cleanup_expired_sessions(auth_service: AuthService = Depends(get_auth_service)):
     """Cleanup expired sessions (admin endpoint)"""
     
     try:
