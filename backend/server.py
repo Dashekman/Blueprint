@@ -35,6 +35,9 @@ async def lifespan(app: FastAPI):
     client = AsyncIOMotorClient(mongo_url)
     db = client[db_name]
     
+    # Set database in dependencies
+    dependencies.set_database(db)
+    
     # Test connection
     try:
         await client.admin.command('ismaster')
