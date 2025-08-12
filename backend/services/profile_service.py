@@ -268,14 +268,18 @@ class ProfileService:
         all_tests = ["mbti", "enneagram", "disc", "humanDesign"]
         return [test for test in all_tests if test not in completed_tests]
     
-    async def get_user_stats(self, user_session: str) -> Dict[str, Any]:
+    async def get_user_stats(self, user_session: str, user_id: Optional[str] = None) -> Dict[str, Any]:
         """Get user statistics"""
-        test_count = await self.db.test_results.count_documents({"user_session": user_session})
-        profile = await self.get_unified_profile(user_session)
+        query = {"user_session": user_session}
+        if user_id:
+            query["user_id"] = user_id
+            
+        test_count = await self.db.test_results.count_documents(query)
+        profile = await self.get_unified_profile(user_session, user_id)
         
         # Get last activity from most recent test or profile generation
         last_test = await self.db.test_results.find_one(
-            {"user_session": user_session}, 
+            query, 
             sort=[("completed_at", -1)]
         )
         
