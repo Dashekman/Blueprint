@@ -102,7 +102,7 @@ async def upload_palm_image(
 async def get_palm_history(
     user_session: str,
     current_user: Optional[dict] = Depends(get_current_user_dependency),
-    palmistry_service: PalmistryService = Depends()
+    palmistry_service: PalmistryService = Depends(get_palmistry_service)
 ):
     """Get user's palm scan history"""
     
