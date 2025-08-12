@@ -12,7 +12,7 @@ router = APIRouter(prefix="/api/chat", tags=["ai-chat"])
 async def send_chat_message(
     request: ChatRequest,
     current_user: Optional[dict] = Depends(get_current_user_dependency),
-    chat_service: ChatService = Depends()
+    chat_service: ChatService = Depends(get_chat_service)
 ):
     """Send message to AI personality coach"""
     
