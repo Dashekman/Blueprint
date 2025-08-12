@@ -21,7 +21,7 @@ class PalmistryService:
         user_id: Optional[str],
         image_data: str
     ) -> PalmistryResponse:
-        """Analyze palm scan image (mock implementation ready for ML integration)"""
+        """Analyze palm scan image using AI vision analysis"""
         
         try:
             # Validate image data
@@ -42,8 +42,8 @@ class PalmistryService:
             scan_result = await self.db.palm_scans.insert_one(palm_scan.dict())
             scan_id = str(scan_result.inserted_id)
             
-            # Mock palmistry analysis (ready for ML model integration)
-            analysis = await self._generate_mock_analysis(user_session, scan_id)
+            # Generate AI-powered palmistry analysis
+            analysis = await self._generate_ai_analysis(user_session, scan_id, image_data)
             
             return PalmistryResponse(
                 success=True,
