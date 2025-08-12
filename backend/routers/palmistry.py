@@ -7,6 +7,9 @@ import base64
 from io import BytesIO
 from PIL import Image
 import json
+import sys
+sys.path.append('..')
+from server import get_palmistry_service
 
 router = APIRouter(prefix="/api/palmistry", tags=["palmistry"])
 
