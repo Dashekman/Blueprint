@@ -119,7 +119,7 @@ async def cleanup_expired_sessions(auth_service: AuthService = Depends(get_auth_
 async def get_current_user_dependency(
     request: Request,
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
-    auth_service: AuthService = Depends()
+    auth_service: AuthService = Depends(get_auth_service)
 ) -> Optional[dict]:
     """Dependency to get current user for protected routes"""
     
