@@ -12,6 +12,7 @@ import Profile from './pages/Profile';
 import Daily from './pages/Daily';
 import Library from './pages/Library';
 import Settings from './pages/Settings';
+import PalmistryPage from './pages/PalmistryPage';
 
 // Layout
 import Layout from './components/Layout';
