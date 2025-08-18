@@ -334,14 +334,127 @@ const Profile = () => {
     </div>
   );
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-slate-600">Loading your profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show authentication form if not logged in
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 p-4">
+        <div className="container mx-auto py-8">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Your Profile</h1>
+            <p className="text-xl text-gray-600">Sign in to access your personality insights</p>
+          </div>
+          <AuthenticationForm />
+          
+          {/* Guest access info */}
+          <div className="max-w-md mx-auto mt-8">
+            <Card className="bg-blue-50 border-blue-200">
+              <CardContent className="p-4 text-center">
+                <AlertCircle className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                <h3 className="font-semibold text-blue-900 mb-2">Continue as Guest?</h3>
+                <p className="text-sm text-blue-800 mb-3">
+                  You can take tests without an account, but you'll need to sign in to save your results and access your profile.
+                </p>
+                <Button variant="outline" asChild className="border-blue-300 text-blue-700">
+                  <Link to="/">Take Tests as Guest</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show empty profile state if logged in but no tests completed
   if (completedTests.length === 0) {
     return (
-      <div className="max-w-3xl mx-auto text-center py-12 space-y-6">
-        <div className="p-6 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full w-24 h-24 mx-auto flex items-center justify-center">
-          <User className="h-12 w-12 text-white" />
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 p-4">
+        <div className="container mx-auto py-8">
+          {/* User Header */}
+          <div className="flex justify-between items-center mb-8">
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+                <User className="h-8 w-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">Welcome, {user?.name}!</h1>
+                <p className="text-gray-600">{user?.email}</p>
+              </div>
+            </div>
+            <Button 
+              onClick={handleLogout}
+              variant="outline"
+              className="flex items-center space-x-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Logout</span>
+            </Button>
+          </div>
+
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <div className="p-6 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full w-24 h-24 mx-auto flex items-center justify-center">
+              <Brain className="h-12 w-12 text-white" />
+            </div>
+            <h2 className="text-3xl font-bold text-slate-900">Start Your Personality Journey</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              Complete personality tests to unlock your comprehensive profile with AI-powered insights. 
+              Discover your strengths, growth areas, and personalized recommendations.
+            </p>
+            
+            <div className="bg-slate-50 rounded-lg p-6 max-w-lg mx-auto">
+              <h3 className="font-semibold text-slate-900 mb-4">Available Tests ({totalTests} total)</h3>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="flex items-center space-x-2">
+                  <Brain className="h-4 w-4 text-indigo-600" />
+                  <span>MBTI Personality</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Star className="h-4 w-4 text-purple-600" />
+                  <span>Big Five</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Heart className="h-4 w-4 text-pink-600" />
+                  <span>Enneagram</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <TrendingUp className="h-4 w-4 text-green-600" />
+                  <span>Values Survey</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Briefcase className="h-4 w-4 text-blue-600" />
+                  <span>Career Interest</span>
+                </div>
+                <div className="text-sm text-slate-500">+ {totalTests - 5} more tests</div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <Button size="lg" className="bg-slate-900 hover:bg-slate-800" asChild>
+                <Link to="/">
+                  <Brain className="mr-2 h-5 w-5" />
+                  Start Taking Tests
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link to="/dashboard">View Dashboard</Link>
+              </Button>
+            </div>
+          </div>
         </div>
-        <h1 className="text-3xl font-bold text-slate-900">Your Personal Blueprint</h1>
-        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+      </div>
+    );
+  }
           Complete personality tests to unlock your comprehensive profile with AI-powered insights and personalized guidance.
         </p>
         <Button size="lg" className="bg-slate-900 hover:bg-slate-800" asChild>
