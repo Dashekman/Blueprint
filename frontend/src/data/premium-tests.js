@@ -284,7 +284,7 @@ export const premiumTests = {
     subtitle: 'Your Persistence & Drive',
     description: 'Measure your passion and perseverance for long-term goals. Discover how your goal orientation and grit contribute to your success and achievement.',
     duration: '10-12 minutes',
-    isPremium: true,
+    isPremium: false, // Changed to free
     category: 'Achievement & Goals',
     puzzlePiece: 'constellation-drive',
     icon: '🔥',
