@@ -39,6 +39,7 @@ function App() {
               <Route path="/library" element={<Library />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/palmistry" element={<PalmistryPage />} />
+              <Route path="/palmistry-test" element={<PalmistryTestPage />} />
             </Routes>
           </Layout>
           <Toaster />
