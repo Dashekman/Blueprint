@@ -266,6 +266,63 @@ class TestScoringService:
                 'source': 'Human Design System (entertainment/spiritual guidance)',
                 'question_count': 5,
                 'duration': '5 minutes + birth data'
+            },
+            # Premium tests metadata
+            'bigFive': {
+                'name': 'Big Five Personality Test',
+                'category': 'premium',
+                'source': 'Five-Factor Model of Personality',
+                'question_count': 42,
+                'duration': '25-30 minutes',
+                'dimensions': ['Openness', 'Conscientiousness', 'Extraversion', 'Agreeableness', 'Neuroticism']
+            },
+            'values': {
+                'name': 'Schwartz Values Survey',
+                'category': 'premium',
+                'source': 'Schwartz Theory of Basic Human Values',
+                'question_count': 42,
+                'duration': '20-25 minutes',
+                'dimensions': ['Power', 'Achievement', 'Hedonism', 'Stimulation', 'Self-Direction', 'Universalism', 'Benevolence', 'Tradition', 'Conformity', 'Security']
+            },
+            'riasec': {
+                'name': 'Holland Career Interest Test',
+                'category': 'premium',
+                'source': 'Holland RIASEC Model',
+                'question_count': 42,
+                'duration': '20-25 minutes',
+                'dimensions': ['Realistic', 'Investigative', 'Artistic', 'Social', 'Enterprising', 'Conventional']
+            },
+            'darkTriad': {
+                'name': 'Dark Triad Assessment',
+                'category': 'premium',
+                'source': 'Short Dark Triad (SD3)',
+                'question_count': 42,
+                'duration': '15-20 minutes',
+                'dimensions': ['Machiavellianism', 'Narcissism', 'Psychopathy']
+            },
+            'grit': {
+                'name': 'Grit and Goal Orientation Scale',
+                'category': 'premium',
+                'source': 'Duckworth Grit Scale + Goal Orientation Theory',
+                'question_count': 42,
+                'duration': '20-25 minutes',
+                'dimensions': ['Grit Consistency', 'Grit Perseverance', 'Performance Goal', 'Learning Goal', 'Avoidance Goal']
+            },
+            'chronotype': {
+                'name': 'Chronotype and Sleep Quality Assessment',
+                'category': 'premium',
+                'source': 'Morningness-Eveningness Questionnaire + Sleep Quality Index',
+                'question_count': 42,
+                'duration': '15-20 minutes',
+                'dimensions': ['Morningness', 'Sleep Quality', 'Sleep Hygiene']
+            },
+            'numerology': {
+                'name': 'Numerology Profile',
+                'category': 'entertainment',
+                'source': 'Traditional Numerology System',
+                'question_count': 4,
+                'duration': '5 minutes',
+                'dimensions': ['Life Path', 'Expression', 'Soul Urge', 'Personality', 'Birthday']
             }
         }
         
