@@ -3,13 +3,17 @@ import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Progress } from '../components/ui/progress';
+import { useToast } from '../hooks/use-toast';
 import { 
   User, Brain, Briefcase, BookOpen, Users, Heart, 
-  TrendingUp, Star, Download, RefreshCw, AlertCircle 
+  TrendingUp, Star, Download, RefreshCw, AlertCircle, Mail, Lock, LogIn, UserPlus, LogOut
 } from 'lucide-react';
 import { mockUnifiedProfile, mockTests } from '../data/mock';
+import { premiumTests } from '../data/premium-tests';
 
 const Profile = () => {
   const [completedTests, setCompletedTests] = useState([]);
