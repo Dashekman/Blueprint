@@ -455,14 +455,6 @@ const Profile = () => {
       </div>
     );
   }
-          Complete personality tests to unlock your comprehensive profile with AI-powered insights and personalized guidance.
-        </p>
-        <Button size="lg" className="bg-slate-900 hover:bg-slate-800" asChild>
-          <Link to="/">Start Your First Test</Link>
-        </Button>
-      </div>
-    );
-  }
 
   const ConfidenceIndicator = ({ confidence, label }) => (
     <div className="flex items-center space-x-2 text-sm">
