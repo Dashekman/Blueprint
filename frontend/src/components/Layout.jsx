@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, User, Calendar, BookOpen, Settings, Menu } from 'lucide-react';
+import { Home, User, Calendar, BookOpen, Settings, Menu, Star } from 'lucide-react';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 
