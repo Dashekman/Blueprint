@@ -527,7 +527,7 @@ export const premiumTests = {
     subtitle: 'The Numbers That Shape You',
     description: 'Discover the hidden meanings in your birth date and name through ancient numerological wisdom. Uncover your life path, destiny, and personality numbers.',
     duration: '5-7 minutes',
-    isPremium: true,
+    isPremium: false, // Changed to free
     category: 'Spiritual & Esoteric',
     puzzlePiece: 'constellation-cosmic',
     icon: '🔢',
