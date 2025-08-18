@@ -102,14 +102,12 @@ const Dashboard = () => {
             </div>
           </div>
           
-          {!userStats.isPremium && (
-            <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-100 to-pink-100 px-4 py-2 rounded-full">
-              <Crown className="w-5 h-5 text-purple-600" />
-              <span className="text-sm font-medium text-purple-800">
-                Upgrade to Premium for advanced tests & insights
-              </span>
-            </div>
-          )}
+          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-100 to-blue-100 px-4 py-2 rounded-full">
+            <Star className="w-5 h-5 text-green-600" />
+            <span className="text-sm font-medium text-green-800">
+              All tests are now free! Complete your constellation.
+            </span>
+          </div>
         </div>
 
         {/* Stats Cards */}
