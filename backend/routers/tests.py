@@ -29,8 +29,8 @@ async def submit_test(
         # Generate user session if not provided
         user_session = submission.user_session or str(uuid.uuid4())
         
-        # Score the test
-        result_type, raw_score, confidence = scoring_service.score_test(
+        # Score the test (handles both regular and premium tests)
+        result_type, raw_score, confidence = scoring_service.score_test_comprehensive(
             test_id, submission.answers
         )
         
