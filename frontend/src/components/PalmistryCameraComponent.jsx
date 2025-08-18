@@ -25,6 +25,8 @@ const PalmistryCameraComponent = ({
 
   // Initialize camera stream
   const initializeCamera = useCallback(async () => {
+    setIsInitializing(true);
+    
     try {
       // Check if mediaDevices is supported
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -55,10 +57,12 @@ const PalmistryCameraComponent = ({
           videoRef.current.play().then(() => {
             setIsStreaming(true);
             setHasPermission(true);
+            setIsInitializing(false);
             console.log('Video is now playing');
           }).catch(playError => {
             console.error('Video play error:', playError);
             setHasPermission(false);
+            setIsInitializing(false);
             toast({
               title: "Camera Error",
               description: "Unable to start video playback. Please try again.",
@@ -70,12 +74,14 @@ const PalmistryCameraComponent = ({
         videoRef.current.onerror = (error) => {
           console.error('Video element error:', error);
           setHasPermission(false);
+          setIsInitializing(false);
         };
       }
       
     } catch (error) {
       console.error('Camera access error:', error);
       setHasPermission(false);
+      setIsInitializing(false);
       
       let errorMessage = "Please allow camera access to scan your palm.";
       
@@ -101,6 +107,7 @@ const PalmistryCameraComponent = ({
               videoRef.current.play().then(() => {
                 setIsStreaming(true);
                 setHasPermission(true);
+                setIsInitializing(false);
               });
             };
             return;
