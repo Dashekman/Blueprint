@@ -73,15 +73,6 @@ const Home = () => {
               <Link to="#tests">Explore Tests</Link>
             </Button>
           </div>
-              <Link to="#tests">
-                Start Your Journey
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link to="/daily">View Today's Insights</Link>
-            </Button>
-          </div>
         </div>
       </section>
 
