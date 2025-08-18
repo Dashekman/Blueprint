@@ -25,25 +25,96 @@ const PalmistryCameraComponent = ({
   // Initialize camera stream
   const initializeCamera = useCallback(async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
+      // Check if mediaDevices is supported
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error('Camera access is not supported in this browser');
+      }
+
+      console.log('Requesting camera access...');
+      
+      // Request camera permission with fallback constraints
+      const constraints = {
         video: {
           facingMode: facingMode,
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        }
-      });
+          width: { ideal: 1280, max: 1920, min: 640 },
+          height: { ideal: 720, max: 1080, min: 480 }
+        },
+        audio: false
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      console.log('Camera access granted:', stream);
       
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        setIsStreaming(true);
-        setHasPermission(true);
+        
+        // Wait for video to load before setting streaming state
+        videoRef.current.onloadedmetadata = () => {
+          console.log('Video loaded, starting playback');
+          videoRef.current.play().then(() => {
+            setIsStreaming(true);
+            setHasPermission(true);
+            console.log('Video is now playing');
+          }).catch(playError => {
+            console.error('Video play error:', playError);
+            setHasPermission(false);
+            toast({
+              title: "Camera Error",
+              description: "Unable to start video playback. Please try again.",
+              variant: "destructive"
+            });
+          });
+        };
+        
+        videoRef.current.onerror = (error) => {
+          console.error('Video element error:', error);
+          setHasPermission(false);
+        };
       }
+      
     } catch (error) {
       console.error('Camera access error:', error);
       setHasPermission(false);
+      
+      let errorMessage = "Please allow camera access to scan your palm.";
+      
+      if (error.name === 'NotAllowedError') {
+        errorMessage = "Camera access was denied. Please allow camera permissions and refresh the page.";
+      } else if (error.name === 'NotFoundError') {
+        errorMessage = "No camera found. Please ensure your device has a camera.";
+      } else if (error.name === 'NotReadableError') {
+        errorMessage = "Camera is being used by another application. Please close other apps and try again.";
+      } else if (error.name === 'OverconstrainedError') {
+        errorMessage = "Camera constraints not supported. Trying with basic settings...";
+        
+        // Try with simpler constraints
+        try {
+          const fallbackStream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false
+          });
+          
+          if (videoRef.current) {
+            videoRef.current.srcObject = fallbackStream;
+            videoRef.current.onloadedmetadata = () => {
+              videoRef.current.play().then(() => {
+                setIsStreaming(true);
+                setHasPermission(true);
+              });
+            };
+            return;
+          }
+        } catch (fallbackError) {
+          console.error('Fallback camera access failed:', fallbackError);
+          errorMessage = "Camera access failed with basic settings. Please check your camera permissions.";
+        }
+      } else if (error.message.includes('not supported')) {
+        errorMessage = "Camera access is not supported in this browser. Please try a different browser.";
+      }
+      
       toast({
-        title: "Camera Access Denied",
-        description: "Please allow camera access to scan your palm.",
+        title: "Camera Access Failed",
+        description: errorMessage,
         variant: "destructive"
       });
     }
