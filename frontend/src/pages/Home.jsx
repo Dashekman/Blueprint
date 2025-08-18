@@ -11,22 +11,37 @@ import { premiumTests } from '../data/premium-tests';
 const Home = () => {
   const [completedTests, setCompletedTests] = useState([]);
   const [profileProgress, setProfileProgress] = useState(0);
+  const [isPremium, setIsPremium] = useState(false);
 
   useEffect(() => {
     // Load completed tests from localStorage
     const completed = JSON.parse(localStorage.getItem('completedTests') || '[]');
+    const premiumStatus = localStorage.getItem('isPremium') === 'true';
     setCompletedTests(completed);
+    setIsPremium(premiumStatus);
     
-    // Calculate profile progress
-    const totalTests = Object.keys(mockTests).length;
+    // Calculate profile progress (including all tests)
+    const allTests = { ...mockTests, ...premiumTests };
+    const totalTests = Object.keys(allTests).length;
     const progress = (completed.length / totalTests) * 100;
     setProfileProgress(progress);
   }, []);
 
   const availableTests = Object.entries(mockTests).map(([key, test]) => ({
     ...test,
-    completed: completedTests.includes(key)
+    testId: key,
+    completed: completedTests.includes(key),
+    isPremium: false
   }));
+
+  const availablePremiumTests = Object.entries(premiumTests).map(([key, test]) => ({
+    ...test,
+    testId: key,
+    completed: completedTests.includes(key),
+    isPremium: true
+  }));
+
+  const allAvailableTests = [...availableTests, ...availablePremiumTests];
 
   return (
     <div className="space-y-8">
