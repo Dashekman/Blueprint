@@ -64,6 +64,15 @@ const Home = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
             <Button size="lg" className="bg-slate-900 hover:bg-slate-800" asChild>
+              <Link to="/dashboard">
+                <Star className="mr-2 h-4 w-4" />
+                View Your Dashboard
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link to="#tests">Explore Tests</Link>
+            </Button>
+          </div>
               <Link to="#tests">
                 Start Your Journey
                 <ArrowRight className="ml-2 h-4 w-4" />
