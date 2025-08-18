@@ -75,7 +75,7 @@ export const premiumTests = {
     subtitle: 'What Truly Motivates You',
     description: 'Uncover your core values and life priorities through the comprehensive Schwartz Value System. Understand what drives your decisions and shapes your worldview.',
     duration: '12-15 minutes',
-    isPremium: true,
+    isPremium: false, // Changed to free
     category: 'Core Motivations',
     puzzlePiece: 'constellation-values',
     icon: '⭐',
