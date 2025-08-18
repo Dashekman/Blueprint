@@ -11,14 +11,13 @@ import { premiumTests } from '../data/premium-tests';
 const Home = () => {
   const [completedTests, setCompletedTests] = useState([]);
   const [profileProgress, setProfileProgress] = useState(0);
-  const [isPremium, setIsPremium] = useState(false);
+  const [isPremium, setIsPremium] = useState(true); // All tests are now free, so treat as "premium"
 
   useEffect(() => {
     // Load completed tests from localStorage
     const completed = JSON.parse(localStorage.getItem('completedTests') || '[]');
-    const premiumStatus = localStorage.getItem('isPremium') === 'true';
     setCompletedTests(completed);
-    setIsPremium(premiumStatus);
+    setIsPremium(true); // All tests are free now
     
     // Calculate profile progress (including all tests)
     const allTests = { ...mockTests, ...premiumTests };
