@@ -16,24 +16,141 @@ import { mockUnifiedProfile, mockTests } from '../data/mock';
 import { premiumTests } from '../data/premium-tests';
 
 const Profile = () => {
+  const { toast } = useToast();
   const [completedTests, setCompletedTests] = useState([]);
   const [profileData, setProfileData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const [showLogin, setShowLogin] = useState(true); // true for login, false for signup
+  const [loginData, setLoginData] = useState({ email: '', password: '' });
+  const [signupData, setSignupData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+  const [authLoading, setAuthLoading] = useState(false);
 
   useEffect(() => {
     const completed = JSON.parse(localStorage.getItem('completedTests') || '[]');
+    const userData = JSON.parse(localStorage.getItem('user') || 'null');
+    const loginStatus = localStorage.getItem('isLoggedIn') === 'true';
+    
     setCompletedTests(completed);
+    setUser(userData);
+    setIsLoggedIn(loginStatus);
     
     if (completed.length > 0) {
-      // In real app, this would trigger AI synthesis
       setProfileData(mockUnifiedProfile);
     }
     
     setIsLoading(false);
   }, []);
 
-  const totalTests = Object.keys(mockTests).length;
+  // Calculate total tests (including now-free premium tests)
+  const allTests = { ...mockTests, ...premiumTests };
+  const totalTests = Object.keys(allTests).length;
   const profileProgress = (completedTests.length / totalTests) * 100;
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setAuthLoading(true);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      if (!loginData.email || !loginData.password) {
+        throw new Error('Please fill in all fields');
+      }
+      
+      // Mock successful login
+      const mockUser = {
+        id: 'user_' + Date.now(),
+        name: loginData.email.split('@')[0],
+        email: loginData.email,
+        created_at: new Date().toISOString()
+      };
+      
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      localStorage.setItem('isLoggedIn', 'true');
+      setUser(mockUser);
+      setIsLoggedIn(true);
+      
+      toast({
+        title: "Login Successful!",
+        description: `Welcome back, ${mockUser.name}!`
+      });
+      
+    } catch (error) {
+      toast({
+        title: "Login Failed",
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setAuthLoading(true);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      if (!signupData.name || !signupData.email || !signupData.password) {
+        throw new Error('Please fill in all fields');
+      }
+      
+      if (signupData.password !== signupData.confirmPassword) {
+        throw new Error('Passwords do not match');
+      }
+      
+      if (signupData.password.length < 6) {
+        throw new Error('Password must be at least 6 characters');
+      }
+      
+      // Mock successful signup
+      const mockUser = {
+        id: 'user_' + Date.now(),
+        name: signupData.name,
+        email: signupData.email,
+        created_at: new Date().toISOString()
+      };
+      
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      localStorage.setItem('isLoggedIn', 'true');
+      setUser(mockUser);
+      setIsLoggedIn(true);
+      
+      toast({
+        title: "Account Created!",
+        description: `Welcome to Superhuman Identity Puzzle, ${mockUser.name}!`
+      });
+      
+    } catch (error) {
+      toast({
+        title: "Signup Failed",
+        description: error.message,
+        variant: "destructive"
+      });
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('isLoggedIn');
+    setUser(null);
+    setIsLoggedIn(false);
+    setLoginData({ email: '', password: '' });
+    setSignupData({ name: '', email: '', password: '', confirmPassword: '' });
+    
+    toast({
+      title: "Logged Out",
+      description: "You have been successfully logged out."
+    });
+  };
 
   if (isLoading) {
     return (
