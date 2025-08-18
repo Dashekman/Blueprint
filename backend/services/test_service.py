@@ -1,5 +1,6 @@
 from typing import Dict, Any, Tuple
 import json
+from .premium_test_service import PremiumTestScoringService
 
 class TestScoringService:
     """Service for scoring personality tests and determining result types"""
