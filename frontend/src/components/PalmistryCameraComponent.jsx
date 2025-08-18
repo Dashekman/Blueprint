@@ -219,21 +219,23 @@ const PalmistryCameraComponent = ({
 
   // Initialize camera on component mount
   useEffect(() => {
-    if (!capturedImage) {
+    if (!capturedImage && hasPermission !== false) {
+      console.log('Initializing camera...');
       initializeCamera();
     }
     
     return () => {
       stopCamera();
     };
-  }, [facingMode]); // Re-run when camera switches
+  }, [facingMode, capturedImage, hasPermission, initializeCamera, stopCamera]); // Re-run when camera switches
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
+      console.log('Cleaning up camera on unmount');
       stopCamera();
     };
-  }, []);
+  }, [stopCamera]);
 
   if (hasPermission === false) {
     return (
