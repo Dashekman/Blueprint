@@ -153,8 +153,10 @@ const Home = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {availableTests.map((test) => (
-            <Card key={test.id} className="relative group hover:shadow-lg transition-all duration-300">
+          {allAvailableTests.map((test) => (
+            <Card key={test.testId} className={`relative group hover:shadow-lg transition-all duration-300 ${
+              test.isPremium && !isPremium ? 'border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50' : ''
+            }`}>
               {test.completed && (
                 <div className="absolute top-4 right-4 z-10">
                   <Badge className="bg-emerald-500 text-white">
@@ -163,13 +165,39 @@ const Home = () => {
                   </Badge>
                 </div>
               )}
+
+              {test.isPremium && !isPremium && (
+                <div className="absolute top-4 left-4 z-10">
+                  <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                    <Crown className="h-3 w-3 mr-1" />
+                    Premium
+                  </Badge>
+                </div>
+              )}
+
+              {test.isPremium && !isPremium && (
+                <div className="absolute inset-0 bg-black/5 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3 flex items-center space-x-2">
+                    <Lock className="w-4 h-4 text-purple-600" />
+                    <span className="text-sm font-medium text-purple-900">Premium Required</span>
+                  </div>
+                </div>
+              )}
               
               <CardHeader className="pb-4">
+                <div className="flex items-center justify-between">
+                  <div className="text-2xl">{test.icon}</div>
+                  {test.isPremium && (
+                    <div className="text-xs text-purple-600 font-medium">
+                      {test.category}
+                    </div>
+                  )}
+                </div>
                 <CardTitle className="text-xl text-slate-900 group-hover:text-indigo-600 transition-colors">
                   {test.name}
                 </CardTitle>
                 <CardDescription className="text-slate-600 leading-relaxed">
-                  {test.description}
+                  {test.subtitle || test.description}
                 </CardDescription>
               </CardHeader>
               
@@ -185,12 +213,26 @@ const Home = () => {
                 </div>
 
                 <Button 
-                  className="w-full bg-slate-900 hover:bg-slate-800" 
+                  className={`w-full transition-all ${
+                    test.isPremium && !isPremium 
+                      ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600' 
+                      : 'bg-slate-900 hover:bg-slate-800'
+                  }`}
                   asChild
+                  disabled={test.isPremium && !isPremium}
                 >
-                  <Link to={`/test/${test.id}`}>
-                    {test.completed ? 'Retake Test' : 'Start Test'}
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                  <Link to={test.isPremium && !isPremium ? '#' : `/test/${test.testId}`}>
+                    {test.isPremium && !isPremium ? (
+                      <>
+                        <Lock className="w-4 h-4 mr-2" />
+                        Upgrade to Access
+                      </>
+                    ) : (
+                      <>
+                        {test.completed ? 'Retake Test' : 'Start Test'}
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </>
+                    )}
                   </Link>
                 </Button>
               </CardContent>
