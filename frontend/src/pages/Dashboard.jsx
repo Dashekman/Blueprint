@@ -140,14 +140,8 @@ const Dashboard = () => {
           
           <Card>
             <CardContent className="p-6 text-center">
-              {userStats.isPremium ? (
-                <Unlock className="w-8 h-8 text-gold-600 mx-auto mb-2" />
-              ) : (
-                <Lock className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-              )}
-              <div className="text-2xl font-bold text-gray-900">
-                {userStats.isPremium ? 'Premium' : 'Free'}
-              </div>
+              <Star className="w-8 h-8 text-green-600 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-gray-900">All Free</div>
               <div className="text-sm text-gray-600">Account Type</div>
             </CardContent>
           </Card>
