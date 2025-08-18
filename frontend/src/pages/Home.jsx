@@ -221,7 +221,13 @@ const Home = () => {
                   asChild
                   disabled={test.isPremium && !isPremium}
                 >
-                  <Link to={test.isPremium && !isPremium ? '#' : `/test/${test.testId}`}>
+                  <Link to={
+                    test.isPremium && !isPremium 
+                      ? '#' 
+                      : test.isPremium 
+                        ? `/premium-test/${test.testId}` 
+                        : `/test/${test.testId}`
+                  }>
                     {test.isPremium && !isPremium ? (
                       <>
                         <Lock className="w-4 h-4 mr-2" />
