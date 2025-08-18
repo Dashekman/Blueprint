@@ -351,7 +351,7 @@ export const premiumTests = {
     subtitle: 'Your Natural Rhythm',
     description: 'Discover your optimal sleep-wake cycle and energy patterns. Learn when you naturally perform best and how to optimize your daily schedule.',
     duration: '8-10 minutes',
-    isPremium: true,
+    isPremium: false, // Changed to free
     category: 'Health & Wellness',
     puzzlePiece: 'constellation-rhythm',
     icon: '🌙',
