@@ -159,6 +159,32 @@ class TestScoringService:
         
         return result_type, scores, confidence
     
+    @staticmethod
+    def score_test_comprehensive(test_id: str, answers: Dict[str, Any]) -> Tuple[Any, Dict[str, Any], float]:
+        """Score any test (regular or premium) and return results"""
+        
+        # Premium tests
+        premium_tests = {
+            'bigFive': PremiumTestScoringService.score_big_five,
+            'values': PremiumTestScoringService.score_values,
+            'riasec': PremiumTestScoringService.score_riasec,
+            'darkTriad': PremiumTestScoringService.score_dark_triad,
+            'grit': PremiumTestScoringService.score_grit,
+            'chronotype': PremiumTestScoringService.score_chronotype,
+            'numerology': PremiumTestScoringService.score_numerology
+        }
+        
+        # Check if it's a premium test first
+        if test_id in premium_tests:
+            try:
+                return premium_tests[test_id](answers)
+            except Exception as e:
+                print(f"Error scoring premium test {test_id}: {str(e)}")
+                return {}, {"error": f"Scoring failed: {str(e)}"}, 0.0
+        
+        # Fall back to regular test scoring
+        return TestScoringService.score_test(test_id, answers)
+
     @classmethod
     def score_test(cls, test_id: str, answers: Dict[str, Any]) -> Tuple[str, Dict[str, Any], float]:
         """Route to appropriate scoring method"""
