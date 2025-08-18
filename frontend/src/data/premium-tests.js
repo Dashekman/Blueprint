@@ -221,7 +221,7 @@ export const premiumTests = {
     subtitle: 'Your Shadow Self',
     description: 'Explore the darker aspects of personality through scientifically validated measures of Machiavellianism, Narcissism, and Psychopathy. Gain self-awareness for personal growth.',
     duration: '8-10 minutes',
-    isPremium: true,
+    isPremium: false, // Changed to free
     category: 'Shadow Psychology',
     puzzlePiece: 'constellation-shadow',
     icon: '🌑',
