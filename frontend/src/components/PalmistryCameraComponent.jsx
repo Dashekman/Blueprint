@@ -21,6 +21,7 @@ const PalmistryCameraComponent = ({
   const [hasPermission, setHasPermission] = useState(null);
   const [facingMode, setFacingMode] = useState('environment'); // 'user' for front camera
   const [showTips, setShowTips] = useState(true);
+  const [isInitializing, setIsInitializing] = useState(false);
 
   // Initialize camera stream
   const initializeCamera = useCallback(async () => {
