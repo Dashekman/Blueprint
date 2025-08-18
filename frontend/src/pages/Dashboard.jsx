@@ -204,55 +204,6 @@ const Dashboard = () => {
           </Card>
         )}
 
-        {/* Premium Tests Showcase */}
-        {!userStats.isPremium && premiumTestsAvailable.length > 0 && (
-          <Card className="bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200">
-            <CardHeader>
-              <CardTitle className="text-xl text-purple-900 flex items-center">
-                <Crown className="w-5 h-5 mr-2" />
-                Unlock Premium Tests
-              </CardTitle>
-              <p className="text-purple-700">
-                Get deeper insights with our advanced personality assessments
-              </p>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                {premiumTestsAvailable.slice(0, 6).map((test) => (
-                  <div 
-                    key={test.testId}
-                    className="p-4 bg-white/60 rounded-lg border border-purple-100 relative"
-                  >
-                    <div className="absolute top-2 right-2">
-                      <Lock className="w-4 h-4 text-gray-400" />
-                    </div>
-                    
-                    <div className="text-2xl mb-2">{test.icon}</div>
-                    <h4 className="font-semibold text-gray-900 text-sm">{test.name}</h4>
-                    <p className="text-xs text-gray-600 mt-1 line-clamp-2">
-                      {test.subtitle}
-                    </p>
-                    
-                    <div className="mt-2 text-xs text-gray-500">
-                      ⏱️ {test.duration}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="text-center">
-                <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8">
-                  <Crown className="w-4 h-4 mr-2" />
-                  Upgrade to Premium
-                </Button>
-                <p className="text-xs text-gray-500 mt-2">
-                  Unlock all {Object.keys(premiumTests).length} premium tests + advanced AI insights
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/profile')}>
