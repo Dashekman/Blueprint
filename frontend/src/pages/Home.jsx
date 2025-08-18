@@ -4,8 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 import { Button } from '../components/ui/button';
 import { Badge } from '../components/ui/badge';
 import { Progress } from '../components/ui/progress';
-import { Brain, Clock, Star, ArrowRight, CheckCircle, Calendar, Hand, Sparkles } from 'lucide-react';
+import { Brain, Clock, Star, ArrowRight, CheckCircle, Calendar, Hand, Sparkles, Crown, Lock } from 'lucide-react';
 import { mockTests, mockDailyContent } from '../data/mock';
+import { premiumTests } from '../data/premium-tests';
 
 const Home = () => {
   const [completedTests, setCompletedTests] = useState([]);
