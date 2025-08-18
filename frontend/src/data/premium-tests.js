@@ -152,7 +152,7 @@ export const premiumTests = {
     subtitle: 'Your Professional DNA',
     description: 'Discover your ideal career path through Holland\'s scientifically-proven career interest model. Find careers that align with your natural interests and personality.',
     duration: '10-12 minutes',
-    isPremium: true,
+    isPremium: false, // Changed to free
     category: 'Career & Work',
     puzzlePiece: 'constellation-career',
     icon: '🎯',
