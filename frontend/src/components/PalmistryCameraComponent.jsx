@@ -244,16 +244,32 @@ const PalmistryCameraComponent = ({
           <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
           <h3 className="text-lg font-semibold mb-2">Camera Access Needed</h3>
           <p className="text-gray-600 mb-4">
-            We need camera access to scan your palm. Please allow camera permissions and refresh the page.
+            We need camera access to scan your palm. Please allow camera permissions in your browser.
           </p>
+          
+          {/* Browser-specific instructions */}
+          <div className="bg-gray-50 rounded-lg p-3 mb-4 text-sm text-left">
+            <h4 className="font-semibold mb-2">How to enable camera access:</h4>
+            <ul className="text-gray-700 space-y-1">
+              <li>• Look for the camera icon in your address bar</li>
+              <li>• Click "Allow" when prompted for camera access</li>
+              <li>• If blocked, click the camera icon and select "Allow"</li>
+              <li>• Refresh the page after granting permission</li>
+            </ul>
+          </div>
+          
           <div className="space-y-2">
-            <Button onClick={initializeCamera} variant="outline" className="w-full">
+            <Button onClick={() => {
+              console.log('Retrying camera access...');
+              setHasPermission(null);
+              initializeCamera();
+            }} variant="default" className="w-full">
               <Camera className="w-4 h-4 mr-2" />
-              Try Again
+              Try Camera Again
             </Button>
             <Button 
               onClick={() => fileInputRef.current?.click()} 
-              variant="default" 
+              variant="outline" 
               className="w-full"
             >
               <Upload className="w-4 h-4 mr-2" />
@@ -267,6 +283,10 @@ const PalmistryCameraComponent = ({
             onChange={handleFileUpload}
             className="hidden"
           />
+          
+          <p className="text-xs text-gray-500 mt-4">
+            Having trouble? Try refreshing the page or using a different browser.
+          </p>
         </CardContent>
       </Card>
     );
