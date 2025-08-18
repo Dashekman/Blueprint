@@ -104,6 +104,33 @@ class ExportData(BaseModel):
     daily_content_history: List[DailyContent]
     export_date: datetime = Field(default_factory=datetime.utcnow)
 
+# Premium Test Result Models
+class PremiumTestResult(BaseModel):
+    """Enhanced model for premium test results with detailed scoring"""
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    test_id: str
+    user_session: str
+    user_id: Optional[str] = None
+    answers: Dict[str, Any]
+    dimension_scores: Dict[str, float]  # Detailed dimension scores
+    analysis: Dict[str, Any]  # Comprehensive analysis
+    confidence: float
+    test_category: str  # e.g., "Core Personality", "Values", "Career"
+    completion_time_minutes: Optional[int] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class TestCompletionStatus(BaseModel):
+    """Track user's test completion progress"""
+    user_session: str
+    user_id: Optional[str] = None  
+    completed_tests: List[str] = Field(default_factory=list)
+    premium_tests_completed: List[str] = Field(default_factory=list)
+    total_tests_available: int = 0
+    completion_percentage: float = 0.0
+    current_level: str = "Beginner"  # Beginner, Explorer, Developing, Advanced, Enlightened, Superhuman
+    constellation_pieces: List[str] = Field(default_factory=list)
+    last_updated: datetime = Field(default_factory=datetime.utcnow)
+
 # Authentication Models
 class User(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
