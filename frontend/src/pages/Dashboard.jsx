@@ -24,26 +24,22 @@ const Dashboard = () => {
   const [userStats, setUserStats] = useState({
     totalTests: 0,
     completedTests: 0,
-    isPremium: false,
     premiumTestsUnlocked: 0
   });
 
   useEffect(() => {
     // Load user progress from localStorage
     const completed = JSON.parse(localStorage.getItem('completedTests') || '[]');
-    const isPremium = localStorage.getItem('isPremium') === 'true';
     
     setCompletedTests(completed);
     
     const allTests = { ...mockTests, ...premiumTests };
     const totalTests = Object.keys(allTests).length;
-    const premiumTestCount = Object.keys(premiumTests).length;
     
     setUserStats({
       totalTests,
       completedTests: completed.length,
-      isPremium,
-      premiumTestsUnlocked: isPremium ? premiumTestCount : 0
+      premiumTestsUnlocked: totalTests // All tests are now free
     });
   }, []);
 
