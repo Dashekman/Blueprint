@@ -13,6 +13,10 @@ import Daily from './pages/Daily';
 import Library from './pages/Library';
 import Settings from './pages/Settings';
 import PalmistryPage from './pages/PalmistryPage';
+import Dashboard from './pages/Dashboard';
+
+// Components  
+import PremiumTestTaking from './components/PremiumTestTaking';
 
 // Layout
 import Layout from './components/Layout';
