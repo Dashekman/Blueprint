@@ -160,7 +160,7 @@ class TestScoringService:
         return result_type, scores, confidence
     
     @staticmethod
-    def score_test_comprehensive(test_id: str, answers: Dict[str, Any]) -> Tuple[Any, Dict[str, Any], float]:
+    def score_test_comprehensive(test_id: str, answers: Dict[str, Any]) -> Tuple[str, Dict[str, Any], float]:
         """Score any test (regular or premium) and return results"""
         
         # Premium tests
@@ -177,10 +177,45 @@ class TestScoringService:
         # Check if it's a premium test first
         if test_id in premium_tests:
             try:
-                return premium_tests[test_id](answers)
+                dimension_scores, analysis, confidence = premium_tests[test_id](answers)
+                
+                # For premium tests, we need to determine a result_type string
+                # and structure the raw_score properly
+                if test_id == 'bigFive':
+                    # Find the highest dimension for result_type
+                    if isinstance(dimension_scores, dict):
+                        highest_dim = max(dimension_scores.keys(), key=lambda k: dimension_scores[k])
+                        result_type = f"Big Five Profile (High {highest_dim.title()})"
+                    else:
+                        result_type = "Big Five Profile"
+                elif test_id == 'values':
+                    # Find the top value for result_type
+                    if isinstance(dimension_scores, dict):
+                        top_value = max(dimension_scores.keys(), key=lambda k: dimension_scores[k])
+                        result_type = f"Values Profile (High {top_value.replace('_', ' ').title()})"
+                    else:
+                        result_type = "Values Profile"
+                elif test_id == 'riasec':
+                    # Find the top interest for result_type
+                    if isinstance(dimension_scores, dict):
+                        top_interest = max(dimension_scores.keys(), key=lambda k: dimension_scores[k])
+                        result_type = f"RIASEC Profile ({top_interest.title()})"
+                    else:
+                        result_type = "RIASEC Profile"
+                else:
+                    result_type = f"{test_id.title()} Profile"
+                
+                # Structure raw_score to include both dimension scores and analysis
+                raw_score = {
+                    **dimension_scores,  # Include all dimension scores
+                    "analysis": analysis  # Include detailed analysis
+                }
+                
+                return result_type, raw_score, confidence
+                
             except Exception as e:
                 print(f"Error scoring premium test {test_id}: {str(e)}")
-                return {}, {"error": f"Scoring failed: {str(e)}"}, 0.0
+                return "Error", {"error": f"Scoring failed: {str(e)}"}, 0.0
         
         # Fall back to regular test scoring
         return TestScoringService.score_test(test_id, answers)
