@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Comprehensive Backend Testing for Palmistry Feature
-Tests AI-powered palm analysis, API endpoints, and database operations
+Comprehensive Backend Testing for Premium Test System
+Tests Big Five, Schwartz Values, RIASEC, and other premium personality assessments
 """
 
 import asyncio
@@ -15,7 +15,7 @@ from typing import Dict, Any, Optional
 import uuid
 
 # Test configuration
-BACKEND_URL = "https://palmistry-ai.preview.emergentagent.com/api"
+BACKEND_URL = "https://c4e28dc1-617e-4727-a161-59f459900978.preview.emergentagent.com/api"
 TEST_USER_SESSION = str(uuid.uuid4())
 
 class PalmistryBackendTester:
