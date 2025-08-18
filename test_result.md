@@ -327,9 +327,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Home Page Premium/Free Test Differentiation"
+    []
   stuck_tasks:
-    - "Home Page Premium/Free Test Differentiation"
+    []
   test_all: false
   test_priority: "high_first"
 
