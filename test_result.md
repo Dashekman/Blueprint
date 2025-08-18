@@ -306,15 +306,18 @@ frontend:
 
   - task: "Home Page Premium/Free Test Differentiation"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/pages/Home.jsx"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: false
           agent: "testing"
           comment: "❌ CRITICAL ISSUE: Home page premium test links incorrectly route to /test/${testId} instead of /premium-test/${testId} on line 224. This causes premium tests to fail when accessed from home page. Premium badges, 'Upgrade to Access' buttons, and lock icons display correctly, but navigation is broken. Premium tests work when accessed directly via URL but not through home page links. Requires routing fix to change Link destination for premium tests."
+        - working: true
+          agent: "testing"
+          comment: "✅ ROUTING FIX CONFIRMED: Premium test routing is now working correctly. Comprehensive testing shows: 1) Premium tests (Big Five, Values, RIASEC, Dark Triad, Grit, Chronotype, Numerology) correctly navigate to /premium-test/{testId} URLs from home page, 2) Free tests (MBTI, Enneagram, DISC, Human Design) correctly navigate to /test/{testId} URLs, 3) Premium test instructions pages load properly with 'Begin Test' buttons, 4) Premium test taking interface is functional, 5) No broken links or navigation issues found. The routing logic on lines 224-230 in Home.jsx is working as designed."
 
 metadata:
   created_by: "main_agent"
