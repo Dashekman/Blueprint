@@ -8,7 +8,7 @@ export const premiumTests = {
     subtitle: 'The Gold Standard of Personality Psychology',
     description: 'Discover your core personality dimensions through the most scientifically validated model in psychology. Unlock deep insights into your Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism.',
     duration: '15-20 minutes',
-    isPremium: true,
+    isPremium: false, // Changed to free
     category: 'Core Personality',
     puzzlePiece: 'constellation-core',
     icon: '🧠',
