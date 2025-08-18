@@ -323,10 +323,12 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
-  stuck_tasks: []
+  current_focus:
+    - "Home Page Premium/Free Test Differentiation"
+  stuck_tasks:
+    - "Home Page Premium/Free Test Differentiation"
   test_all: false
-  test_priority: "complete"
+  test_priority: "high_first"
 
 agent_communication:
     - agent: "main"
