@@ -9,6 +9,7 @@ const Layout = ({ children }) => {
 
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
+    { name: 'Dashboard', href: '/dashboard', icon: Star },
     { name: 'Profile', href: '/profile', icon: User },
     { name: 'Daily', href: '/daily', icon: Calendar },
     { name: 'Library', href: '/library', icon: BookOpen },
