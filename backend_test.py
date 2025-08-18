@@ -380,7 +380,9 @@ class PremiumTestBackendTester:
                     
                     # Check career code generation (should start with 'I' for Investigative)
                     if has_riasec:
-                        sorted_interests = sorted(raw_score.items(), key=lambda x: x[1], reverse=True)
+                        # Filter out non-numeric values (like 'analysis')
+                        riasec_scores = {k: v for k, v in raw_score.items() if isinstance(v, (int, float))}
+                        sorted_interests = sorted(riasec_scores.items(), key=lambda x: x[1], reverse=True)
                         top_interest = sorted_interests[0][0] if sorted_interests else ""
                         if top_interest == "investigative":
                             print(f"   ✅ Career pattern correctly identified: Investigative-focused")
