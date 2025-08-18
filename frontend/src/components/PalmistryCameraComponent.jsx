@@ -359,9 +359,21 @@ const PalmistryCameraComponent = ({
                     </Badge>
                   </>
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <Loader2 className="w-8 h-8 text-white animate-spin" />
-                    <span className="text-white ml-2">Starting camera...</span>
+                  <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
+                    <Loader2 className="w-12 h-12 text-white animate-spin" />
+                    <div className="text-center text-white">
+                      <div className="text-lg font-semibold">
+                        {isInitializing ? 'Initializing camera...' : 'Starting camera...'}
+                      </div>
+                      <div className="text-sm opacity-75">
+                        {isInitializing ? 'Please allow camera access when prompted' : 'Please wait'}
+                      </div>
+                    </div>
+                    {hasPermission === null && (
+                      <div className="text-xs text-white/60 text-center max-w-xs">
+                        If you don't see a camera permission prompt, check your browser's address bar for a camera icon.
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
