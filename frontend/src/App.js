@@ -29,7 +29,9 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/test/:testId" element={<TakeTest />} />
+              <Route path="/premium-test/:testId" element={<PremiumTestTaking />} />
               <Route path="/results/:testId" element={<TestResults />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/daily" element={<Daily />} />
