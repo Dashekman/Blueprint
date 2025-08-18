@@ -471,53 +471,323 @@ const Profile = () => {
   );
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="text-center py-8">
-        <div className="p-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full w-20 h-20 mx-auto mb-4 flex items-center justify-center">
-          <User className="h-10 w-10 text-white" />
-        </div>
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">
-          Your Personal Blueprint
-        </h1>
-        <p className="text-slate-600 mb-4">
-          AI-synthesized insights from your personality assessments
-        </p>
-        
-        {/* Progress Indicator */}
-        <div className="max-w-md mx-auto mb-6">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-slate-700">
-              Profile Completeness
-            </span>
-            <span className="text-sm text-slate-600">
-              {completedTests.length}/{totalTests} tests
-            </span>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 p-4">
+      <div className="container mx-auto py-8 max-w-6xl">
+        {/* User Header */}
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center">
+              <User className="h-8 w-8 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user?.name}!</h1>
+              <p className="text-gray-600">{user?.email}</p>
+            </div>
           </div>
-          <Progress value={profileProgress} className="w-full" />
+          <Button 
+            onClick={handleLogout}
+            variant="outline"
+            className="flex items-center space-x-2"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Logout</span>
+          </Button>
         </div>
 
-        <div className="flex justify-center space-x-3">
-          <Button variant="outline" className="flex items-center space-x-2">
-            <Download className="h-4 w-4" />
-            <span>Export PDF</span>
-          </Button>
-          <Button variant="outline" className="flex items-center space-x-2">
-            <RefreshCw className="h-4 w-4" />
-            <span>Regenerate Insights</span>
-          </Button>
+        {/* Profile Progress */}
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Your Personal Blueprint</h2>
+          <p className="text-slate-600 mb-4">
+            AI-synthesized insights from your personality assessments
+          </p>
+          
+          {/* Progress Indicator */}
+          <div className="max-w-md mx-auto mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-slate-700">
+                Profile Completeness
+              </span>
+              <span className="text-sm text-slate-600">
+                {completedTests.length}/{totalTests} tests
+              </span>
+            </div>
+            <Progress value={profileProgress} className="w-full" />
+          </div>
+
+          <div className="flex justify-center space-x-3">
+            <Button variant="outline" className="flex items-center space-x-2">
+              <Download className="h-4 w-4" />
+              <span>Export PDF</span>
+            </Button>
+            <Button variant="outline" className="flex items-center space-x-2">
+              <RefreshCw className="h-4 w-4" />
+              <span>Regenerate Insights</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* Profile Overview Cards */}
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <Card className="bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg text-emerald-900 flex items-center space-x-2">
+                <TrendingUp className="h-5 w-5" />
+                <span>Strengths</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {profileData?.strengths.slice(0, 3).map((strength, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                    <span className="text-sm text-emerald-800">{strength}</span>
+                  </div>
+                )) || (
+                  <p className="text-sm text-emerald-700">Complete more tests to discover your strengths</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg text-blue-900 flex items-center space-x-2">
+                <Brain className="h-5 w-5" />
+                <span>Personality Type</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {profileData ? (
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-800 mb-1">
+                    {profileData.mbti_type}
+                  </div>
+                  <div className="text-sm text-blue-600 mb-2">
+                    {profileData.mbti_description}
+                  </div>
+                  <ConfidenceIndicator 
+                    confidence={profileData.confidence}
+                    label="Confidence"
+                  />
+                </div>
+              ) : (
+                <p className="text-sm text-blue-700">Take the MBTI test to discover your type</p>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-lg text-purple-900 flex items-center space-x-2">
+                <Heart className="h-5 w-5" />
+                <span>Growth Areas</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {profileData?.growth_areas.slice(0, 3).map((area, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                    <span className="text-sm text-purple-800">{area}</span>
+                  </div>
+                )) || (
+                  <p className="text-sm text-purple-700">Complete more tests to identify growth areas</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Detailed Insights Tabs */}
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="personality">Personality</TabsTrigger>
+            <TabsTrigger value="career">Career</TabsTrigger>
+            <TabsTrigger value="relationships">Relationships</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="mt-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <User className="h-5 w-5" />
+                    <span>Core Traits</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {profileData ? (
+                    <div className="space-y-3">
+                      {profileData.core_traits.map((trait, index) => (
+                        <div key={index} className="flex justify-between items-center">
+                          <span className="text-sm text-slate-600">{trait.name}</span>
+                          <div className="flex items-center space-x-2">
+                            <div className="w-20 bg-slate-200 rounded-full h-2">
+                              <div 
+                                className="bg-indigo-600 h-2 rounded-full" 
+                                style={{ width: `${trait.score}%` }}
+                              ></div>
+                            </div>
+                            <span className="text-xs text-slate-500 w-8 text-right">
+                              {trait.score}%
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-slate-600">Complete personality tests to see your core traits</p>
+                  )}
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <BookOpen className="h-5 w-5" />
+                    <span>Completed Tests</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {completedTests.length > 0 ? (
+                      completedTests.map((testId, index) => {
+                        const allTestsData = { ...mockTests, ...premiumTests };
+                        const test = allTestsData[testId];
+                        return (
+                          <div key={index} className="flex items-center space-x-3 p-2 bg-slate-50 rounded-lg">
+                            <div className="text-lg">{test?.icon || '📊'}</div>
+                            <div>
+                              <div className="text-sm font-medium">{test?.name || testId}</div>
+                              <div className="text-xs text-slate-500">Completed</div>
+                            </div>
+                            <Badge variant="secondary" className="ml-auto">
+                              <CheckCircle className="w-3 h-3 mr-1" />
+                              Done
+                            </Badge>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <p className="text-sm text-slate-600">No tests completed yet</p>
+                    )}
+                  </div>
+                  
+                  {completedTests.length < totalTests && (
+                    <div className="mt-4">
+                      <Button variant="outline" size="sm" asChild className="w-full">
+                        <Link to="/">
+                          <Brain className="w-4 h-4 mr-2" />
+                          Take More Tests ({totalTests - completedTests.length} remaining)
+                        </Link>
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="personality" className="mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Personality Insights</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {profileData ? (
+                  <div className="prose max-w-none">
+                    <p className="text-slate-700">{profileData.personality_summary}</p>
+                    <h4 className="text-lg font-semibold mt-4 mb-2">Key Characteristics:</h4>
+                    <ul className="space-y-1">
+                      {profileData.key_characteristics.map((char, index) => (
+                        <li key={index} className="text-slate-600">• {char}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <p className="text-slate-600">Complete personality tests to unlock detailed insights</p>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="career" className="mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Briefcase className="h-5 w-5" />
+                  <span>Career Insights</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {profileData ? (
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold mb-2">Recommended Career Paths:</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {profileData.career_suggestions.map((career, index) => (
+                          <div key={index} className="p-2 bg-slate-50 rounded-lg text-sm">
+                            {career}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold mb-2">Work Style:</h4>
+                      <p className="text-slate-700">{profileData.work_style}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-slate-600">Complete career-related tests to get personalized career insights</p>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="relationships" className="mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Users className="h-5 w-5" />
+                  <span>Relationship Style</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {profileData ? (
+                  <div className="space-y-4">
+                    <p className="text-slate-700">{profileData.relationship_style}</p>
+                    <div>
+                      <h4 className="font-semibold mb-2">Communication Preferences:</h4>
+                      <ul className="space-y-1">
+                        {profileData.communication_style.map((style, index) => (
+                          <li key={index} className="text-slate-600">• {style}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-slate-600">Complete personality tests to understand your relationship style</p>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+
+        {/* Action Buttons */}
+        <div className="text-center mt-8 space-y-4">
+          <div className="flex justify-center space-x-4">
+            <Button asChild>
+              <Link to="/dashboard">View Dashboard</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link to="/daily">Daily Insights</Link>
+            </Button>
+          </div>
         </div>
       </div>
-
-      {/* Profile Overview Cards */}
-      <div className="grid md:grid-cols-3 gap-6 mb-8">
-        <Card className="bg-gradient-to-r from-emerald-50 to-teal-50 border-emerald-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg text-emerald-900 flex items-center space-x-2">
-              <TrendingUp className="h-5 w-5" />
-              <span>Strengths</span>
-            </CardTitle>
-          </CardHeader>
+    </div>
+  );
           <CardContent>
             <p className="text-sm text-emerald-800">
               {profileData?.strengths?.length || 0} key strengths identified
