@@ -7,6 +7,7 @@ import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { mockTests } from '../data/mock';
+import { premiumTests } from '../data/premium-tests';
 import { useToast } from '../hooks/use-toast';
 
 const TakeTest = () => {
@@ -19,6 +20,12 @@ const TakeTest = () => {
   const [test, setTest] = useState(null);
 
   useEffect(() => {
+    // Check if it's a premium test first
+    if (premiumTests[testId]) {
+      navigate(`/premium-test/${testId}`);
+      return;
+    }
+    
     const testData = mockTests[testId];
     if (!testData) {
       navigate('/');
