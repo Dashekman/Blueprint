@@ -76,7 +76,6 @@ const HomePage = () => {
               {hasProfile || testCount > 0 ? 'Continue Your Blueprint' : 'Start Your Blueprint'}
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
-            </Button>
             <Button 
               size="lg" 
               variant="outline" 
