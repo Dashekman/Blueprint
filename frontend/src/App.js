@@ -13,6 +13,7 @@ import DailyPage from './pages/DailyPage';
 import AskAIPage from './pages/AskAIPage';
 import LibraryPage from './pages/LibraryPage';
 import SettingsPage from './pages/SettingsPage';
+import PremiumPage from './pages/PremiumPage';
 
 // Support pages
 import AboutPage from './pages/AboutPage';
