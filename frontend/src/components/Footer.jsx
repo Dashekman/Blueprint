@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Hand, Heart } from 'lucide-react';
+import { BookOpen, Heart } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -10,17 +10,17 @@ const Footer = () => {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
-                <Hand className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <BookOpen className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-900">Palmistry AI</span>
+              <span className="text-xl font-bold text-gray-900">Personal Blueprint AI</span>
             </Link>
             <p className="text-gray-600 text-sm mb-4 max-w-md">
-              Discover the secrets hidden in your palm lines with AI-powered palmistry analysis. 
-              Get personalized insights into your personality, relationships, and life path.
+              Create your personalized Operating Manual for life through AI-powered synthesis 
+              of personality tests, birth data, and personal insights. 100% local, 100% private.
             </p>
             <p className="text-xs text-gray-500">
-              * For entertainment purposes only. Not intended for medical, legal, or professional advice.
+              ⚠️ This app provides guidance for reflection only. Not medical, psychological, or professional advice.
             </p>
           </div>
 
@@ -30,6 +30,9 @@ const Footer = () => {
             <div className="space-y-2">
               <Link to="/" className="block text-sm text-gray-600 hover:text-purple-600 transition-colors">
                 Home
+              </Link>
+              <Link to="/intake" className="block text-sm text-gray-600 hover:text-purple-600 transition-colors">
+                Build Blueprint
               </Link>
               <Link to="/about" className="block text-sm text-gray-600 hover:text-purple-600 transition-colors">
                 How it Works
@@ -64,7 +67,7 @@ const Footer = () => {
         <div className="border-t border-gray-200 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-sm text-gray-600">
-              © 2025 Palmistry AI. All rights reserved.
+              © 2025 Personal Blueprint AI. All rights reserved.
             </div>
             <div className="flex items-center space-x-2 text-sm text-gray-600">
               <span>Made with</span>
