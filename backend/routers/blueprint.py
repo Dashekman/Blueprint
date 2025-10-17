@@ -146,16 +146,15 @@ GUIDELINES:
 
 Generate a detailed, personalized synthesis following the JSON format specified. Make it actionable and insightful."""
 
-        # Initialize LLM chat with config
+        # Initialize LLM chat
         chat = LlmChat(
             api_key=api_key,
             session_id=f"synthesis_{id(request)}",
-            system_message=system_message,
-            model_name="gpt-5",
-            provider="openai",
-            temperature=0.4,
-            top_p=0.9
+            system_message=system_message
         )
+        
+        # Configure model
+        chat.with_model("openai", "gpt-5")
         
         # Send message
         user_message = UserMessage(text=user_prompt)
