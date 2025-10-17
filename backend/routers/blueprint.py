@@ -147,18 +147,22 @@ GUIDELINES:
 Generate a detailed, personalized synthesis following the JSON format specified. Make it actionable and insightful."""
 
         # Initialize LLM chat
+        logger.info(f"Initializing LLM chat for synthesis")
         chat = LlmChat(
             api_key=api_key,
             session_id=f"synthesis_{id(request)}",
             system_message=system_message
         )
         
-        # Configure model
-        chat.with_model("openai", "gpt-5")
+        # Configure model - use gpt-4o-mini for reliability
+        logger.info(f"Configuring model: openai/gpt-4o-mini")
+        chat.with_model("openai", "gpt-4o-mini")
         
         # Send message
+        logger.info(f"Sending synthesis request to LLM")
         user_message = UserMessage(text=user_prompt)
         response = await chat.send_message(user_message)
+        logger.info(f"Received response from LLM (length: {len(response)})")
         
         # Parse response - expect JSON
         import json
