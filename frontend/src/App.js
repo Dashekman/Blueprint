@@ -3,12 +3,18 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from './components/ui/toaster';
 import './App.css';
 
-// Pages
+// Pages - Personal Blueprint AI Flow
 import HomePage from './pages/HomePage';
-import UploadPage from './pages/UploadPage';
-import AnalysisPage from './pages/AnalysisPage';
-import ResultsPage from './pages/ResultsPage';
-import PremiumPage from './pages/PremiumPage';
+import IntakePage from './pages/IntakePage';
+import TestsHubPage from './pages/TestsHubPage';
+import ImportPage from './pages/ImportPage';
+import SynthesisPage from './pages/SynthesisPage';
+import DailyPage from './pages/DailyPage';
+import AskAIPage from './pages/AskAIPage';
+import LibraryPage from './pages/LibraryPage';
+import SettingsPage from './pages/SettingsPage';
+
+// Support pages
 import AboutPage from './pages/AboutPage';
 import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
@@ -26,11 +32,18 @@ function App() {
         <Header />
         <main className="flex-1">
           <Routes>
+            {/* Main App Flow */}
             <Route path="/" element={<HomePage />} />
-            <Route path="/upload" element={<UploadPage />} />
-            <Route path="/analysis" element={<AnalysisPage />} />
-            <Route path="/results" element={<ResultsPage />} />
-            <Route path="/premium" element={<PremiumPage />} />
+            <Route path="/intake" element={<IntakePage />} />
+            <Route path="/tests" element={<TestsHubPage />} />
+            <Route path="/import" element={<ImportPage />} />
+            <Route path="/synthesis" element={<SynthesisPage />} />
+            <Route path="/daily" element={<DailyPage />} />
+            <Route path="/ask-ai" element={<AskAIPage />} />
+            <Route path="/library" element={<LibraryPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            
+            {/* Support Pages */}
             <Route path="/about" element={<AboutPage />} />
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/contact" element={<ContactPage />} />
