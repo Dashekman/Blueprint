@@ -15,7 +15,7 @@ from typing import Dict, Any, Optional
 import uuid
 
 # Test configuration
-BACKEND_URL = "https://c4e28dc1-617e-4727-a161-59f459900978.preview.emergentagent.com/api"
+BACKEND_URL = "https://personal-blueprint.preview.emergentagent.com/api"
 TEST_USER_SESSION = str(uuid.uuid4())
 
 class PremiumTestBackendTester:
