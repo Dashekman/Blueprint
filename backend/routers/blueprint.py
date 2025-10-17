@@ -234,7 +234,7 @@ Generate a detailed, personalized synthesis following the JSON format specified.
         return SynthesisResponse(
             success=True,
             synthesis=synthesis_data,
-            message="Operating Manual generated successfully"
+            message="Operating Manual generated successfully" + (" (using AI fallback due to connection issues)" if "fallback" in locals() else "")
         )
         
     except HTTPException:
