@@ -1,39 +1,63 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
-import { Card, CardContent } from '../components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { getPremiumStatus, getUserProfile, getAllTestResults } from '../utils/indexedDB';
 import { 
-  Hand, 
-  Upload, 
+  BookOpen,
   Sparkles, 
+  Brain, 
   Heart, 
-  TrendingUp, 
-  Users, 
+  Target, 
+  Shield,
   ArrowRight,
-  Star,
-  Camera
+  Check,
+  Lock
 } from 'lucide-react';
 
 const HomePage = () => {
+  const navigate = useNavigate();
+  const [isPremium, setIsPremium] = useState(false);
+  const [hasProfile, setHasProfile] = useState(false);
+  const [testCount, setTestCount] = useState(0);
+
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    try {
+      const premium = getPremiumStatus();
+      const profile = await getUserProfile();
+      const tests = await getAllTestResults();
+      
+      setIsPremium(premium);
+      setHasProfile(!!profile);
+      setTestCount(tests?.length || 0);
+    } catch (error) {
+      console.error('Failed to load user data:', error);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 py-20 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
+      <section className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-20 px-4">
+        <div className="container mx-auto max-w-5xl text-center">
           {/* Hero Title */}
-          <div className="mb-6">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full mb-6 mx-auto">
-              <Hand className="w-10 h-10 text-white" />
+          <div className="mb-8">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-6 mx-auto shadow-lg">
+              <BookOpen className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4">
-              Palmistry AI
+            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+              Personal Blueprint AI
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-2 font-light">
-              Discover the secrets hidden in your palm
+            <p className="text-xl md:text-2xl text-gray-600 mb-3">
+              Your Personalized Operating Manual for Life
             </p>
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-              Upload a photo of your palm and get an AI-powered reading with insights into your 
-              personality, relationships, career path, and life journey.
+            <p className="text-lg text-gray-500 max-w-3xl mx-auto">
+              Combine personality tests, birth data, and AI to create a single, actionable guide 
+              for work, relationships, and daily living. <strong>100% local, 100% private.</strong>
             </p>
           </div>
 
@@ -41,13 +65,13 @@ const HomePage = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-lg px-8 py-4 h-14"
-              asChild
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-4 h-14 shadow-lg"
+              onClick={() => navigate('/intake')}
             >
-              <Link to="/upload">
-                <Camera className="w-5 h-5 mr-2" />
-                Take Photo & Get Reading
-              </Link>
+              <Sparkles className="w-5 h-5 mr-2" />
+              {hasProfile || testCount > 0 ? 'Continue Your Blueprint' : 'Start Your Blueprint'}
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
             </Button>
             <Button 
               size="lg" 
