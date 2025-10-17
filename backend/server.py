@@ -88,6 +88,7 @@ app.include_router(profile.router)
 app.include_router(daily.router)
 app.include_router(chat.router)
 app.include_router(palmistry.router)
+app.include_router(blueprint.router)
 
 # Health check endpoint
 @app.get("/api/health")
