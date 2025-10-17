@@ -53,9 +53,9 @@ async def lifespan(app: FastAPI):
 
 # Create FastAPI app with lifespan
 app = FastAPI(
-    title="Superhuman Identity Puzzle API",
-    description="AI-powered personality assessment and synthesis platform for superhuman self-discovery",
-    version="2.0.0",
+    title="Personal Blueprint AI API",
+    description="AI-powered personality synthesis platform for creating personalized Operating Manuals",
+    version="3.0.0",
     lifespan=lifespan
 )
 
