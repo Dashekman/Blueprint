@@ -143,49 +143,49 @@ const HomePage = () => {
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              What Your Palm Reveals
+              What's in Your Operating Manual
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Our AI analyzes the major lines and features of your palm to provide insights into different aspects of your life.
+              AI-powered synthesis of your unique personality, strengths, and life path
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Life & Health */}
-            <Card className="border-green-200 bg-green-50 hover:shadow-lg transition-shadow">
+            {/* Core Traits */}
+            <Card className="border-purple-200 bg-purple-50 hover:shadow-lg transition-shadow">
               <CardContent className="p-6 text-center">
-                <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Brain className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-green-900 mb-2">Life & Health</h3>
-                <p className="text-green-700 text-sm">
-                  Discover insights about your vitality, health patterns, and life energy through your life line analysis.
+                <h3 className="text-xl font-semibold text-purple-900 mb-2">Core Traits</h3>
+                <p className="text-purple-700 text-sm">
+                  Understand your fundamental personality, strengths, and blind spots with evidence-based analysis
                 </p>
               </CardContent>
             </Card>
 
-            {/* Love & Relationships */}
+            {/* Work & Career */}
+            <Card className="border-blue-200 bg-blue-50 hover:shadow-lg transition-shadow">
+              <CardContent className="p-6 text-center">
+                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Target className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="text-xl font-semibold text-blue-900 mb-2">Work & Career</h3>
+                <p className="text-blue-700 text-sm">
+                  Discover your optimal work style, communication preferences, and career path alignment
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Relationships */}
             <Card className="border-pink-200 bg-pink-50 hover:shadow-lg transition-shadow">
               <CardContent className="p-6 text-center">
                 <div className="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Heart className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-pink-900 mb-2">Love & Relationships</h3>
+                <h3 className="text-xl font-semibold text-pink-900 mb-2">Relationships</h3>
                 <p className="text-pink-700 text-sm">
-                  Understand your romantic nature, relationship patterns, and emotional tendencies through heart line reading.
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Career & Success */}
-            <Card className="border-blue-200 bg-blue-50 hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 text-center">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold text-blue-900 mb-2">Career & Success</h3>
-                <p className="text-blue-700 text-sm">
-                  Learn about your professional path, leadership qualities, and success potential through fate line analysis.
+                  Learn how you connect with others, your love language, and relationship patterns
                 </p>
               </CardContent>
             </Card>
@@ -201,41 +201,41 @@ const HomePage = () => {
               How It Works
             </h2>
             <p className="text-lg text-gray-600">
-              Get your palm reading in just 3 simple steps
+              Build your Operating Manual in 3 simple steps
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Step 1 */}
             <div className="text-center">
-              <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl shadow-lg">
                 1
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Upload Photo</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Add Your Data</h3>
               <p className="text-gray-600">
-                Take a clear photo of your palm or upload an existing image. Make sure your palm lines are clearly visible.
+                Input personality test results (MBTI, CliftonStrengths, etc.), birth data, and personal goals
               </p>
             </div>
 
             {/* Step 2 */}
             <div className="text-center">
-              <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl shadow-lg">
                 2
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">AI Analysis</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">AI Synthesis</h3>
               <p className="text-gray-600">
-                Our advanced AI analyzes your palm lines, mounts, and features to generate your personalized reading.
+                GPT-5 analyzes everything and creates a unified, actionable Operating Manual just for you
               </p>
             </div>
 
             {/* Step 3 */}
             <div className="text-center">
-              <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl">
+              <div className="w-16 h-16 bg-gradient-to-r from-pink-600 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-xl shadow-lg">
                 3
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Get Results</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Use It Daily</h3>
               <p className="text-gray-600">
-                Receive detailed insights about your personality, relationships, career, and life path in seconds.
+                Get daily guidance, meditations, affirmations, and AI coaching based on your unique profile
               </p>
             </div>
           </div>
@@ -243,41 +243,40 @@ const HomePage = () => {
           <div className="text-center mt-12">
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-              asChild
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
+              onClick={() => navigate('/intake')}
             >
-              <Link to="/upload">
-                Try It Now
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
+              Start Building Your Manual
+              <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Sample/Demo Section */}
-      <section className="py-16 px-4 bg-white">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Try a Sample Reading
-          </h2>
-          <p className="text-lg text-gray-600 mb-8">
-            See what a palm reading looks like with our sample analysis
-          </p>
-          
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="border-purple-200 text-purple-700 hover:bg-purple-50"
-            asChild
-          >
-            <Link to="/upload?demo=true">
+      {/* Premium Section */}
+      {!isPremium && (
+        <section className="py-16 px-4 bg-gradient-to-br from-yellow-50 to-orange-50">
+          <div className="container mx-auto max-w-4xl text-center">
+            <Lock className="w-16 h-16 mx-auto mb-6 text-yellow-600" />
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Unlock Premium Features
+            </h2>
+            <p className="text-lg text-gray-600 mb-8">
+              Get guided meditations, daily affirmations, AI Q&A coach, and PDF export
+            </p>
+            
+            <Button 
+              size="lg" 
+              className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 shadow-lg"
+              onClick={() => navigate('/premium')}
+            >
               <Sparkles className="w-4 h-4 mr-2" />
-              View Sample Reading
-            </Link>
-          </Button>
-        </div>
-      </section>
+              View Premium Features
+            </Button>
+            <p className="text-sm text-gray-600 mt-4">One-time payment • Lifetime access</p>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
