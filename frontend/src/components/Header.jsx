@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Hand, Menu } from 'lucide-react';
+import { Hand, Menu, Brain } from 'lucide-react';
 import { Button } from './ui/button';
 
 const Header = () => {
@@ -15,9 +15,9 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
-              <Hand className="w-5 h-5 text-white" />
+              <Brain className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900">Palmistry AI</span>
+            <span className="text-xl font-bold text-gray-900">Personal Blueprint</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -59,9 +59,9 @@ const Header = () => {
           {/* CTA Button */}
           <div className="hidden md:block">
             <Button asChild className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
-              <Link to="/upload">
-                <Hand className="w-4 h-4 mr-2" />
-                Read My Palm
+              <Link to="/intake">
+                <Brain className="w-4 h-4 mr-2" />
+                Build My Blueprint
               </Link>
             </Button>
           </div>
@@ -72,7 +72,7 @@ const Header = () => {
           </Button>
         </div>
 
-        {/* Mobile Navigation (you can expand this with a dropdown) */}
+        {/* Mobile Navigation */}
         <nav className="md:hidden mt-4 pt-4 border-t border-gray-100">
           <div className="flex flex-col space-y-3">
             <Link 
@@ -108,9 +108,9 @@ const Header = () => {
               Contact
             </Link>
             <Button asChild className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 w-full mt-2">
-              <Link to="/upload">
-                <Hand className="w-4 h-4 mr-2" />
-                Read My Palm
+              <Link to="/intake">
+                <Brain className="w-4 h-4 mr-2" />
+                Build My Blueprint
               </Link>
             </Button>
           </div>
