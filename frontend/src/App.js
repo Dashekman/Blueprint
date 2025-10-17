@@ -43,6 +43,7 @@ function App() {
             <Route path="/ask-ai" element={<AskAIPage />} />
             <Route path="/library" element={<LibraryPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/premium" element={<PremiumPage />} />
             
             {/* Support Pages */}
             <Route path="/about" element={<AboutPage />} />
