@@ -1,209 +1,260 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { Badge } from '../components/ui/badge';
-import { Crown, Check, Star, Heart, TrendingUp, Users, ArrowRight } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { getPremiumStatus, checkPremiumFromURL } from '../utils/indexedDB';
+import { Check, Sparkles, Lock, Download, MessageSquare, BookOpen, Music } from 'lucide-react';
 
+/**
+ * Premium Page - Stripe Payment Link Integration
+ * 
+ * User clicks "Unlock Premium"
+ * → Redirected to Stripe Payment Link
+ * → After payment, Stripe redirects back with ?pro=1
+ * → App detects ?pro=1 and sets localStorage.setItem('pro', '1')
+ * → Premium features unlocked locally
+ */
 const PremiumPage = () => {
-  const features = {
-    free: [
-      'Basic life line reading',
-      'Basic heart line reading', 
-      'General personality summary',
-      'Confidence score'
-    ],
-    premium: [
-      'Complete palm analysis (all major lines)',
-      'Deep personality insights',
-      'Career path & success predictions',
-      'Relationship compatibility analysis',
-      'Health & wellness indicators',
-      'Life timeline & key events',
-      'Lucky numbers & compatible signs',
-      'Downloadable PDF report',
-      'Share your reading',
-      'Priority customer support'
-    ]
+  const navigate = useNavigate();
+  const [isPremium, setIsPremium] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check for premium status from URL parameter or localStorage
+    const premiumStatus = checkPremiumFromURL();
+    setIsPremium(premiumStatus);
+    setLoading(false);
+  }, []);
+
+  // Replace this with your actual Stripe Payment Link
+  const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_PLACEHOLDER_LINK';
+  
+  // For demo/testing, add current domain as return URL
+  const returnURL = `${window.location.origin}/?pro=1`;
+
+  const handleUpgrade = () => {
+    // Redirect to Stripe Payment Link with return URL
+    window.location.href = `${STRIPE_PAYMENT_LINK}?client_reference_id=${Date.now()}`;
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isPremium) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-white rounded-2xl shadow-xl p-12">
+            <div className="text-6xl mb-6">✅</div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+              You're Premium!
+            </h1>
+            <p className="text-gray-600 text-lg mb-8">
+              You now have access to all premium features
+            </p>
+            <div className="flex gap-4 justify-center">
+              <Button onClick={() => navigate('/synthesis')}>
+                View Your Operating Manual
+              </Button>
+              <Button variant="outline" onClick={() => navigate('/daily')}>
+                Explore Daily Features
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const features = [
+    {
+      icon: <Music className="h-6 w-6" />,
+      title: 'Guided Meditations',
+      description: 'AI-generated meditation audio with TTS in English and Polish',
+      color: 'from-blue-500 to-cyan-500',
+    },
+    {
+      icon: <Sparkles className="h-6 w-6" />,
+      title: 'Daily Affirmations',
+      description: 'Personalized affirmations based on your Operating Manual',
+      color: 'from-purple-500 to-pink-500',
+    },
+    {
+      icon: <MessageSquare className="h-6 w-6" />,
+      title: 'AI Q&A Coach',
+      description: 'Ask questions and get guidance based on your profile',
+      color: 'from-green-500 to-teal-500',
+    },
+    {
+      icon: <Download className="h-6 w-6" />,
+      title: 'PDF Export',
+      description: 'Download your complete Operating Manual as PDF',
+      color: 'from-orange-500 to-red-500',
+    },
+    {
+      icon: <BookOpen className="h-6 w-6" />,
+      title: 'Advanced Insights',
+      description: 'Deeper relationship guidance and career analysis',
+      color: 'from-indigo-500 to-purple-500',
+    },
+    {
+      icon: <Lock className="h-6 w-6" />,
+      title: 'Full Access',
+      description: 'All current and future premium features',
+      color: 'from-pink-500 to-rose-500',
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 py-8 px-4">
-      <div className="container mx-auto max-w-6xl">
-        
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-4">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full mb-4">
-            <Crown className="w-8 h-8 text-white" />
+          <div className="inline-block mb-4">
+            <div className="text-6xl">✨</div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Unlock Your Complete Palm Reading
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
+            Upgrade to Premium
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Get the full power of AI palmistry with detailed insights into every aspect of your life.
+          <p className="text-gray-600 text-xl mb-2">
+            Unlock the full power of your Operating Manual
+          </p>
+          <p className="text-gray-500">
+            One-time payment • Lifetime access • No subscription
           </p>
         </div>
 
-        {/* Feature Comparison */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-12">
-          
-          {/* Free Version */}
-          <Card className="border-gray-200">
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl text-gray-900">Free Reading</CardTitle>
-              <div className="text-3xl font-bold text-gray-600 mt-2">$0</div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {features.free.map((feature, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <Check className="w-5 h-5 text-green-600" />
-                  <span className="text-gray-700">{feature}</span>
+        {/* Pricing Card */}
+        <Card className="max-w-2xl mx-auto mb-12 border-2 border-purple-200 shadow-2xl">
+          <CardHeader className="text-center pb-8 pt-8">
+            <CardTitle className="text-3xl mb-2">Personal Blueprint Premium</CardTitle>
+            <CardDescription className="text-lg">
+              Everything you need for personal growth
+            </CardDescription>
+            <div className="mt-6">
+              <span className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                $19.99
+              </span>
+              <span className="text-gray-600 text-xl ml-2">one-time</span>
+            </div>
+          </CardHeader>
+          <CardContent className="pb-8">
+            <Button
+              onClick={handleUpgrade}
+              className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white font-bold text-lg py-6"
+              size="lg"
+            >
+              <Sparkles className="mr-2 h-5 w-5" />
+              Unlock Premium Now
+            </Button>
+            <p className="text-center text-sm text-gray-500 mt-4">
+              Secure payment via Stripe • Instant access
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {features.map((feature, index) => (
+            <Card key={index} className="border-2 hover:border-purple-300 transition-all">
+              <CardHeader>
+                <div className={`inline-flex p-3 rounded-lg bg-gradient-to-r ${feature.color} text-white mb-3`}>
+                  {feature.icon}
                 </div>
-              ))}
-              <Button variant="outline" className="w-full mt-6" asChild>
-                <Link to="/upload">Try Free Reading</Link>
-              </Button>
-            </CardContent>
-          </Card>
+                <CardTitle className="text-xl">{feature.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600">{feature.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
 
-          {/* Premium Version */}
-          <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 relative overflow-hidden">
-            <Badge className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white">
-              Most Popular
-            </Badge>
-            
-            <CardHeader className="text-center">
-              <CardTitle className="text-2xl text-purple-900 flex items-center justify-center">
-                <Crown className="w-6 h-6 mr-2" />
-                Premium Reading
-              </CardTitle>
-              <div className="text-4xl font-bold text-purple-700 mt-2">$9.99</div>
-              <div className="text-sm text-purple-600">One-time payment</div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {features.premium.map((feature, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <Check className="w-5 h-5 text-purple-600" />
-                  <span className="text-purple-800">{feature}</span>
+        {/* Benefits */}
+        <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-blue-200">
+          <CardHeader>
+            <CardTitle>Why Go Premium?</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex items-start gap-3">
+                <Check className="h-5 w-5 text-green-600 mt-1" />
+                <div>
+                  <p className="font-medium">No Subscription</p>
+                  <p className="text-sm text-gray-600">One-time payment, lifetime access</p>
                 </div>
-              ))}
-              <Button className="w-full mt-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
-                <Crown className="w-4 h-4 mr-2" />
-                Unlock Premium Reading
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Premium Features Detail */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          <Card className="text-center border-green-200 bg-green-50">
-            <CardContent className="p-6">
-              <TrendingUp className="w-12 h-12 text-green-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-green-900 mb-2">Life & Health</h3>
-              <p className="text-green-700 text-sm">
-                Complete analysis of your life line, health indicators, vitality patterns, and wellness recommendations.
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="text-center border-pink-200 bg-pink-50">
-            <CardContent className="p-6">
-              <Heart className="w-12 h-12 text-pink-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-pink-900 mb-2">Love & Relationships</h3>
-              <p className="text-pink-700 text-sm">
-                Deep insights into your romantic nature, compatibility with others, and relationship patterns.
-              </p>
-            </CardContent>
-          </Card>
-          
-          <Card className="text-center border-blue-200 bg-blue-50">
-            <CardContent className="p-6">
-              <Users className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-blue-900 mb-2">Career & Success</h3>
-              <p className="text-blue-700 text-sm">
-                Discover your professional path, leadership qualities, and potential for success and achievement.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Testimonials (mock) */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">What Our Users Say</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="flex items-center justify-center mb-4">
-                {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 text-yellow-500 fill-current" />)}
               </div>
-              <p className="text-gray-700 text-sm mb-3">
-                "Incredibly accurate and detailed! The premium reading gave me insights I never expected."
-              </p>
-              <div className="text-gray-500 text-xs">Sarah M.</div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="flex items-center justify-center mb-4">
-                {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 text-yellow-500 fill-current" />)}
+              <div className="flex items-start gap-3">
+                <Check className="h-5 w-5 text-green-600 mt-1" />
+                <div>
+                  <p className="font-medium">Privacy First</p>
+                  <p className="text-sm text-gray-600">All data stays on your device</p>
+                </div>
               </div>
-              <p className="text-gray-700 text-sm mb-3">
-                "The AI analysis was spot-on about my personality and career path. Worth every penny!"
-              </p>
-              <div className="text-gray-500 text-xs">Michael R.</div>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <div className="flex items-center justify-center mb-4">
-                {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 text-yellow-500 fill-current" />)}
+              <div className="flex items-start gap-3">
+                <Check className="h-5 w-5 text-green-600 mt-1" />
+                <div>
+                  <p className="font-medium">Instant Access</p>
+                  <p className="text-sm text-gray-600">Features unlock immediately after payment</p>
+                </div>
               </div>
-              <p className="text-gray-700 text-sm mb-3">
-                "Amazing detail and beautiful presentation. The PDF report is something I'll keep forever."
-              </p>
-              <div className="text-gray-500 text-xs">Emma L.</div>
+              <div className="flex items-start gap-3">
+                <Check className="h-5 w-5 text-green-600 mt-1" />
+                <div>
+                  <p className="font-medium">Future Updates</p>
+                  <p className="text-sm text-gray-600">All new premium features included</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         {/* FAQ */}
-        <div className="max-w-3xl mx-auto mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-2">How accurate is the AI palm reading?</h3>
-              <p className="text-gray-700 text-sm">
-                Our AI has been trained on thousands of palm readings and traditional palmistry knowledge. While results are for entertainment, many users find them remarkably insightful.
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-2">Is this a one-time payment?</h3>
-              <p className="text-gray-700 text-sm">
-                Yes! Pay once and get your complete premium reading. No subscriptions or hidden fees.
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-2">Can I get a refund?</h3>
-              <p className="text-gray-700 text-sm">
-                We offer a 30-day money-back guarantee if you're not satisfied with your reading.
-              </p>
-            </div>
+        <div className="mt-12 max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-6">Frequently Asked Questions</h2>
+          <div className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">How does payment work?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600">
+                  We use Stripe for secure payment processing. Click "Unlock Premium" to be redirected to a secure payment page. 
+                  After payment, you'll be redirected back and premium features will be unlocked instantly.
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Is my data safe?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600">
+                  Yes! All your personal data is stored locally on your device using IndexedDB. 
+                  We never send your test results or profile information to any servers. Premium status is stored locally too.
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Can I use it on multiple devices?</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600">
+                  Since data is stored locally, each device maintains its own data. 
+                  You can export your data from Settings and import it on another device.
+                </p>
+              </CardContent>
+            </Card>
           </div>
-        </div>
-
-        {/* Final CTA */}
-        <div className="text-center">
-          <Button 
-            size="lg" 
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-lg px-8 py-4"
-          >
-            <Crown className="w-5 h-5 mr-2" />
-            Get Your Premium Reading Now
-          </Button>
-          <p className="text-sm text-gray-500 mt-4">
-            Secure payment • Instant access • 30-day guarantee
-          </p>
         </div>
       </div>
     </div>
