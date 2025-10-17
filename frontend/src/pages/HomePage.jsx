@@ -76,34 +76,65 @@ const HomePage = () => {
               {hasProfile || testCount > 0 ? 'Continue Your Blueprint' : 'Start Your Blueprint'}
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-purple-200 text-purple-700 hover:bg-purple-50 text-lg px-8 py-4 h-14"
-              asChild
-            >
-              <Link to="/upload">
-                <Upload className="w-5 h-5 mr-2" />
-                Upload Palm Photo
-              </Link>
-            </Button>
+            {hasProfile || testCount > 0 ? (
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 py-4 h-14"
+                onClick={() => navigate('/synthesis')}
+              >
+                View My Manual
+              </Button>
+            ) : (
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 py-4 h-14"
+                onClick={() => navigate('/about')}
+              >
+                Learn More
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            )}
           </div>
 
           {/* Trust Indicators */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-gray-500">
-            <div className="flex items-center gap-2">
-              <Star className="w-4 h-4 text-yellow-500 fill-current" />
-              <span>AI-Powered Analysis</span>
+          <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-600">
+            <div className="flex items-center">
+              <Shield className="w-4 h-4 mr-1 text-blue-600" />
+              <span>100% Local & Private</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-purple-500" />
-              <span>Instant Results</span>
+            <div className="flex items-center">
+              <Brain className="w-4 h-4 mr-1 text-purple-600" />
+              <span>AI-Powered Synthesis</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Heart className="w-4 h-4 text-red-500 fill-current" />
-              <span>For Entertainment</span>
+            <div className="flex items-center">
+              <Check className="w-4 h-4 mr-1 text-green-600" />
+              <span>Evidence-Based</span>
             </div>
           </div>
+
+          {/* User Progress */}
+          {(hasProfile || testCount > 0) && (
+            <Card className="mt-8 max-w-md mx-auto bg-white/80 backdrop-blur">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm font-medium text-gray-700">Your Progress</p>
+                  <p className="text-sm text-gray-600">{hasProfile && testCount > 0 ? 'Ready!' : 'In Progress'}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="text-center p-3 bg-blue-50 rounded-lg">
+                    <p className="text-xs text-blue-700">Profile</p>
+                    <p className="text-lg font-bold text-blue-600">{hasProfile ? '✓' : '○'}</p>
+                  </div>
+                  <div className="text-center p-3 bg-purple-50 rounded-lg">
+                    <p className="text-xs text-purple-700">Tests</p>
+                    <p className="text-lg font-bold text-purple-600">{testCount}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </section>
 
