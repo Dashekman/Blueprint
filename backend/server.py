@@ -15,7 +15,7 @@ from services.chat_service import ChatService
 from services.palmistry_service import PalmistryService
 
 # Import routers
-from routers import tests, profile, daily, auth, chat, palmistry
+from routers import tests, profile, daily, auth, chat, palmistry, blueprint
 
 # Load environment variables
 ROOT_DIR = Path(__file__).parent
