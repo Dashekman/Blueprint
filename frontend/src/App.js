@@ -1,50 +1,46 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from './components/ui/toaster';
-import { UserProvider } from './contexts/UserContext';
 import './App.css';
 
 // Pages
-import Home from './pages/Home';
-import TakeTest from './pages/TakeTest';
-import TestResults from './pages/TestResults';
-import Profile from './pages/Profile';
-import Daily from './pages/Daily';
-import Library from './pages/Library';
-import Settings from './pages/Settings';
-import PalmistryPage from './pages/PalmistryPage';
-import PalmistryTestPage from './pages/PalmistryTestPage';
-import Dashboard from './pages/Dashboard';
+import HomePage from './pages/HomePage';
+import UploadPage from './pages/UploadPage';
+import AnalysisPage from './pages/AnalysisPage';
+import ResultsPage from './pages/ResultsPage';
+import PremiumPage from './pages/PremiumPage';
+import AboutPage from './pages/AboutPage';
+import FAQPage from './pages/FAQPage';
+import ContactPage from './pages/ContactPage';
+import TermsPage from './pages/TermsPage';
+import PrivacyPage from './pages/PrivacyPage';
 
-// Components  
-import PremiumTestTaking from './components/PremiumTestTaking';
-
-// Layout
-import Layout from './components/Layout';
+// Components
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="App">
-      <UserProvider>
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/test/:testId" element={<TakeTest />} />
-              <Route path="/premium-test/:testId" element={<PremiumTestTaking />} />
-              <Route path="/results/:testId" element={<TestResults />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/daily" element={<Daily />} />
-              <Route path="/library" element={<Library />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/palmistry" element={<PalmistryPage />} />
-              <Route path="/palmistry-test" element={<PalmistryTestPage />} />
-            </Routes>
-          </Layout>
-          <Toaster />
-        </Router>
-      </UserProvider>
+    <div className="App min-h-screen flex flex-col">
+      <Router>
+        <Header />
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/upload" element={<UploadPage />} />
+            <Route path="/analysis" element={<AnalysisPage />} />
+            <Route path="/results" element={<ResultsPage />} />
+            <Route path="/premium" element={<PremiumPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+          </Routes>
+        </main>
+        <Footer />
+        <Toaster />
+      </Router>
     </div>
   );
 }
