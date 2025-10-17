@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { getPremiumStatus, getUserProfile, getAllTestResults } from '../utils/indexedDB';
@@ -12,7 +12,11 @@ import {
   Shield,
   ArrowRight,
   Check,
-  Lock
+  Lock,
+  Upload,
+  Star,
+  Users,
+  TrendingUp
 } from 'lucide-react';
 
 const HomePage = () => {
