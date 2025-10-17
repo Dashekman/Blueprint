@@ -112,10 +112,10 @@ async def health_check():
 @app.get("/api/")
 async def root():
     return {
-        "message": "Superhuman Identity Puzzle API",
-        "description": "Unlock your superhuman potential through comprehensive personality analysis",
-        "version": "2.0.0",
-        "theme": "🧠✨ Collect the puzzle pieces of your identity to become superhuman",
+        "message": "Personal Blueprint AI API",
+        "description": "Create your personalized Operating Manual through AI-powered synthesis",
+        "version": "3.0.0",
+        "theme": "🧠📚 Understand yourself. Optimize your life.",
         "endpoints": {
             "authentication": "/api/auth",
             "tests": "/api/tests",
@@ -123,6 +123,7 @@ async def root():
             "daily": "/api/daily",
             "chat": "/api/chat",
             "palmistry": "/api/palmistry",
+            "blueprint": "/api/blueprint",
             "health": "/api/health"
         }
     }
