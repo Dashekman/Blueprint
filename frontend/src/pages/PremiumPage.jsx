@@ -26,11 +26,8 @@ const PremiumPage = () => {
     setLoading(false);
   }, []);
 
-  // Replace this with your actual Stripe Payment Link
-  const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_PLACEHOLDER_LINK';
-  
-  // For demo/testing, add current domain as return URL
-  const returnURL = `${window.location.origin}/?pro=1`;
+  // Stripe Payment Link - redirects to checkout, then back to app with ?pro=1
+  const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/bJeeVe8UD6YS0g58Gc8EM00';
 
   const handleUpgrade = () => {
     // Redirect to Stripe Payment Link with return URL
